@@ -17,7 +17,7 @@ export default class CardConst extends cc.Component{
         const map = new Map<Number, Number>();
         map.set(0, 0);
         map.set(0x5E, 53);
-        map.set(0x55, 54);
+        map.set(0x5F, 54);
         var count = 0;
         for (var i = 1; i <= 4; i ++) {
             for (var j = 1; j <= 13; j ++) {

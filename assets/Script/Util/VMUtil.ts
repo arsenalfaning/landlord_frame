@@ -39,7 +39,12 @@ export default class VMUtil{
         return VM.get<GamerBean>(RIGHT).$data;
     }
 
+    static getGamers(): GamerBean[] {
+        return [this.getMyself(), this.getLeft(), this.getRight()];
+    }
+
     static getCardsByPath(path: string): number[] {
         return VM.getValue(path);
     }
+
 }

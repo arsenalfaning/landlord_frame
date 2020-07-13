@@ -6,18 +6,18 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import GameFrame from "../Net/GameFrame";
-import GameBean from "../Bean/GameBean";
-import { VM } from "../ViewModel/ViewModel";
-import WebSocketBean from "../Net/WebSocketBean";
+import ActionBean from "../Bean/ActionBean";
+import ActionExecutor from "../Action/ActionExecutor";
 
 /**
  * 游戏状态
  */
-enum GameState {
+export enum GameState {
     Matching = 0, //匹配中
-    Approving = 1, //抢地主中
-    Playing = 2, //出牌中
-    GameOver = 3, //已结束
+    Dealing = 1, //发牌中
+    Approving = 2, //抢地主中
+    Playing = 3, //出牌中
+    GameOver = 4, //已结束
 }
 
 /**
@@ -40,26 +40,27 @@ const {ccclass, property} = cc._decorator;
 export default class GameLogic extends cc.Component {
 
     // private gameBean: GameBean = VM.get<GameBean>("game").$data;
-    private socket: WebSocketBean;
+    
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this.socket.connect();
+        
     }
 
     start () {
         
     }
 
-    //帧同步
-    updateByNet (frame: GameFrame<Object>) {
-        if (frame.a && frame.a.length > 0) {
-            
+    //执行action
+    updateAction (actionList: ActionBean<Object>[]): ActionBean<any>[] {
+        const ret: ActionBean<any>[] = [];
+        for (let i = 0; i < actionList.length; i ++) {
+            let ab = new ActionExecutor(actionList[i]).execute();
+            if (ab) {
+                ret.push(ab);
+            }
         }
-    }
-
-    onDestroy() {
-        this.socket.onClose();
+        return ret;
     }
 }

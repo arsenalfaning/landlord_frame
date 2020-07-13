@@ -6,21 +6,91 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import ActionBean from "../Bean/ActionBean";
-import { GameAction } from "../Logic/GameLogic";
+import { GameAction, GameState } from "../Logic/GameLogic";
 import RoomActionBean from "./RoomActionBean";
+import VMUtil from "../Util/VMUtil";
+import Random from "../Util/Random";
+import ActionFactory from "./ActionFactory";
+import { GamerState } from "../Logic/GamerLogic";
+import DeckUtil from "../Util/DeckUtil";
+import OrderUtil from "../Util/OrderUtil";
 
 export default class ActionExecutor {
 
-    actionBean: ActionBean<Object>;
+    actionBean: ActionBean<any>;
 
-    constructor(actionBean: ActionBean<Object>) {
+    constructor(actionBean: ActionBean<any>) {
         this.actionBean = actionBean;
     }
 
-    execute() {
-        if (this.actionBean.action == GameAction.Room) {
-            let bean = this.actionBean as RoomActionBean;
-            
+    execute(): ActionBean<any> {
+        const game = VMUtil.getGameBean();
+        if (this.actionBean.action == GameAction.Room) {//初始化房间数据
+            if (game.state == GameState.Matching) {
+                //1.接收数据
+                const bean = this.actionBean as RoomActionBean;
+                const myself = VMUtil.getMyself();
+                const left = VMUtil.getLeft();
+                const right = VMUtil.getRight();
+                bean.data.gamers.forEach(e => {
+                    if (e.gamerId == myself.gamerId) {
+                        myself.order = e.order;
+                        myself.point = e.point;
+                    }
+                });
+                bean.data.gamers.forEach(g => {
+                    g.state = GamerState.WaitingForDeal;
+                    if (OrderUtil.isLeft(myself.order, g.order)) {
+                        left.order = g.order;
+                        left.gamerId = g.gamerId;
+                        left.point = g.point;
+                    } else if (OrderUtil.isRight(myself.order, g.order)) {
+                        right.order = g.order;
+                        right.gamerId = g.gamerId;
+                        right.point = g.point;
+                    }
+                });
+                myself.state = GamerState.WaitingForDeal;
+                left.state = GamerState.WaitingForDeal;
+                right.state = GamerState.WaitingForDeal;
+                game.random = new Random(bean.data.seed);
+                game.state = GameState.Dealing;
+                //2.发送发牌action
+                return ActionFactory.build(GameAction.Deal);
+            } else {
+                console.warn("error game state:" + game.state + " for action room");
+            }
+        } else if (this.actionBean.action == GameAction.Deal) {//发牌
+            if (game.state == GameState.Dealing) {
+                //1.接收数据
+                const gamers = VMUtil.getGamers();
+                // const myself = VMUtil.getMyself();
+                // const left = VMUtil.getLeft();
+                // const right = VMUtil.getRight();
+                const deck = DeckUtil.getdeck();
+                DeckUtil.shuffle(deck, game.random);
+                gamers.forEach(g => {
+                    let cards = deck.slice(g.order * 17, (g.order + 1) * 17 );
+                    DeckUtil.sort(cards);
+                    g.cards = cards;
+                    g.state = GamerState.WaitingForApprove;
+                });
+                const hole = deck.slice(51);
+                DeckUtil.sort(hole);
+                game.holeCards = hole;
+                game.state = GameState.Approving;
+                game.turn();
+            } else {
+                console.warn("error game state:" + game.state + " for action deal");
+            }
+        } else if (this.actionBean.action == GameAction.Approve) {//抢地主
+            if (game.state == GameState.Approving) {
+                //1.接收数据
+                const value = this.actionBean.data as boolean;
+                game.approve(value);
+            } else {
+                console.warn("error game state:" + game.state + " for action approve");
+            }
         }
     }
 }

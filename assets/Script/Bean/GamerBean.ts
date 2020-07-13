@@ -28,7 +28,7 @@ export default class GamerBean {
     /**
      * 是否是地主
      */
-    landlord: boolean = false;
+    landlord: number = 0;
     /**
      * 当前状态
      */

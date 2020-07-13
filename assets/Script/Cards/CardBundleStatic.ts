@@ -6,7 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import CardTemplate from "./CardTemplate";
-import VMUtil from "../Util/VMUtil";
+import GamerBean from "../Bean/GamerBean";
 
 const {ccclass, property} = cc._decorator;
 
@@ -18,17 +18,19 @@ export default class CardBundleStatic extends cc.Component {
 
     _cardTemplates: CardTemplate[] = [];
 
+    cardTemplateMap: Map<number, CardTemplate> = new Map();
+
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
     }
 
-    setData(event: any, path: string) {
-        if (path) {
+    setData(cards: number[]) {
+        if (cards) {
             this.node.removeAllChildren();
-            const cards = VMUtil.getCardsByPath(path);
-            if (cards && cards.length > 0) {
+            if (cards.length > 0) {
                 this._cardTemplates = [];
+                this.cardTemplateMap.clear();
                 for (var i = 0; i < cards.length; i ++) {
                     var value = cards[i];
                     var node = cc.instantiate(this.cardPrefab);
@@ -36,6 +38,7 @@ export default class CardBundleStatic extends cc.Component {
                     ct.setValue(value);
                     this.node.addChild(node);
                     this._cardTemplates.push(ct);
+                    this.cardTemplateMap.set(value, ct);
                 }
             }
         }

@@ -17,8 +17,8 @@ export default class CardSuggestUtil {
      * @param cards 玩家手里所有的牌
      * @param lastHand 上一手有效出牌
      */
-    static suggest(cards: number[], lastHand: CardHand): CardHand {
-        if (lastHand.type == CardUtil.Cards_Type_Joker_Bomb) { //对方是王炸
+    static suggest(cards: number[], lastHand?: CardHand): CardHand {
+        if (lastHand && lastHand.type == CardUtil.Cards_Type_Joker_Bomb) { //对方是王炸
             return null;
         }
         let cs = this._findValueEqualList(cards);
@@ -60,15 +60,26 @@ export default class CardSuggestUtil {
      * @param cs 
      */
     static _suggestMin(cs: CardSorted): CardHand {
+        let hand: CardHand = null;
         if (cs.singleArray.length > 0) {
-            return new CardHand([cs.singleArray[cs.singleArray.length - 1]], [], CardUtil.Cards_Type_Single); 
-        } else if (cs.doubleArray.length > 0) {
-            return new CardHand(cs.doubleArray[cs.doubleArray.length - 1], [], CardUtil.Cards_Type_Double); 
-        } else if (cs.tripleArray.length > 0) {
-            return new CardHand(cs.tripleArray[cs.tripleArray.length - 1], [], CardUtil.Cards_Type_Triple); 
-        } else if (cs.quadrupleArray.length > 0) {
-            return new CardHand(cs.quadrupleArray[cs.quadrupleArray.length - 1], [], CardUtil.Cards_Type_Bomb);
+            hand = new CardHand([cs.singleArray.pop()], [], CardUtil.Cards_Type_Single); 
+        } 
+        if (cs.doubleArray.length > 0) {
+            const cards = cs.doubleArray.pop();
+            if (DeckUtil.compareValue(hand.cards[0], cards[0]) > 0) {
+                hand = new CardHand(cards, [], CardUtil.Cards_Type_Double); 
+            }
         }
+        if (cs.tripleArray.length > 0) {
+            const cards = cs.tripleArray.pop();
+            if (DeckUtil.compareValue(hand.cards[0], cards[0]) > 0) {
+                hand = new CardHand(cards, [], CardUtil.Cards_Type_Triple); 
+            }
+        }
+        if (!hand && cs.quadrupleArray.length > 0) {
+            hand = new CardHand(cs.quadrupleArray.pop(), [], CardUtil.Cards_Type_Bomb);
+        }
+        return hand;
     }
 
     /**
@@ -357,15 +368,16 @@ export default class CardSuggestUtil {
      */
     static _findValueEqualList(cards: number[]) : CardSorted{
         let cs = new CardSorted();
-        for (let i = 0; i < cards.length; i ++) {
-            if (DeckUtil.compareValue(cards[i], cards[i + 1]) != 0) {
-                cs.singleArray.push(cards[i]);
-            } else if (DeckUtil.compareValue(cards[i], cards[i + 2]) != 0) {
-                cs.doubleArray.push([cards[i], cards[i + 1]]);
-            } else if (DeckUtil.compareValue(cards[i], cards[i + 3]) != 0) {
-                cs.tripleArray.push([cards[i], cards[i + 1], cards[i + 2]]);
+        let tmp = [].concat(cards);
+        while(tmp.length > 0) {
+            if (DeckUtil.compareValue(tmp[0], tmp[1]) != 0) {
+                cs.singleArray.push(tmp.shift());
+            } else if (DeckUtil.compareValue(tmp[0], tmp[2]) != 0) {
+                cs.doubleArray.push([tmp.shift(), tmp.shift()]);
+            } else if (DeckUtil.compareValue(tmp[0], tmp[3]) != 0) {
+                cs.tripleArray.push([tmp.shift(), tmp.shift(), tmp.shift()]);
             } else {
-                cs.quadrupleArray.push([cards[i], cards[i + 1], cards[i + 2], cards[i + 3]]);
+                cs.quadrupleArray.push([tmp.shift(), tmp.shift(), tmp.shift(), tmp.shift()]);
             }
         }
         return cs;

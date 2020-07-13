@@ -63,9 +63,9 @@ export default class DeckUtil {
     static _compare(card1: number, card2: number): number {
         let delta = Value_Array[DeckUtil.value(card1)] - Value_Array[DeckUtil.value(card2)];
         if (delta == 0) {
-            return Style_Array[DeckUtil.style(card1)] - Style_Array[DeckUtil.style(card2)];
+            return - Style_Array[DeckUtil.style(card1)] - Style_Array[DeckUtil.style(card2)];
         } else {
-            return delta;
+            return - delta;
         }
     }
 

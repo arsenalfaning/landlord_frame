@@ -5,19 +5,8 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import GamerBean from "./GamerBean";
+import ActionBean from "../Bean/ActionBean";
 
-/**
- * 房间信息
- */
-export default class RoomBean {
+export default class ApproveActionBean extends ActionBean<boolean>{
 
-    /**
-     * 三个玩家
-     */
-    gamers: GamerBean[];
-    /**
-     * 随机数种子
-     */
-    seed: number;
 }

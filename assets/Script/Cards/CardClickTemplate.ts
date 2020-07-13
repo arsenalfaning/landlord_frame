@@ -10,7 +10,7 @@ import CardTemplate from "./CardTemplate";
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class NewClass extends CardTemplate {
+export default class CardClickTemplate extends CardTemplate {
 
     
     selected: boolean = false;
