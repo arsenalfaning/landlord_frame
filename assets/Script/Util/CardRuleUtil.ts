@@ -14,6 +14,7 @@ import DeckUtil from "./DeckUtil";
  */
 export default class CardRuleUtil {
     
+
     /**
      * 判断手牌是何类型，用于首次出牌，如果返回null，表明不符合出牌规则
      * @param cards 牌数组
@@ -84,7 +85,7 @@ export default class CardRuleUtil {
             if (arr[1].length == 2) {
                 return new CardHand(arr[0], arr[1], CardUtil.Cards_Type_Quadruple_Append_Two_Single); //四带二
             } else if (arr[1].length == 4) {
-                if (this._isAllValueEqual(arr[1].splice(0,2)) && this._isAllValueEqual(arr[1].splice(2))) {
+                if (this._isAllValueEqual(arr[1].slice(0,2)) && this._isAllValueEqual(arr[1].slice(2))) {
                     return new CardHand(arr[0], arr[1], CardUtil.Cards_Type_Quadruple_Append_Two_Double); //四带两对
                 }
             }
@@ -120,7 +121,7 @@ export default class CardRuleUtil {
         let valueSet = new Set();
         for (let i = 0; i < cards.length - 2;) {
             if (DeckUtil.compareValue(cards[i], cards[i + 2]) == 0) {
-                let arr = cards.splice(i, i + 3);
+                let arr = cards.slice(i, i + 3);
                 values.concat(arr);
                 arr.forEach(e => valueSet.add(e));
                 i += 3;
@@ -169,7 +170,7 @@ export default class CardRuleUtil {
      */
     static _isNStraight(cards: number[], n: number): boolean {
         for (let i = 0; i < cards.length - n; i += n) {
-            if ( DeckUtil.compareValue(cards[i], cards[i + n]) != 1 || DeckUtil.compareValue(cards[1], cards[i + n - 1]) != 0 ) {
+            if ( DeckUtil.compareValue(cards[i], cards[i + n]) != 1 || DeckUtil.compareValue(cards[i], cards[i + n - 1]) != 0 ) {
                 return false;
             }
         }
@@ -184,7 +185,7 @@ export default class CardRuleUtil {
     static _findNValueEqual(cards: number[], n: number): number[][] {
         for (let i = 0; i < cards.length - n; i ++) {
             if ( DeckUtil.compareValue(cards[i], cards[i + n - 1]) == 0) {
-                return [cards.splice(i, i + n), cards.splice(0, i).concat(cards.splice(i + n))];
+                return [cards.slice(i, i + n), cards.slice(0, i).concat(cards.slice(i + n))];
             }
         }
         return null;

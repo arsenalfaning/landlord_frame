@@ -40,23 +40,22 @@ export default class CardHand {
 
     /**
      * 与另外一手牌比较大小
-     * @param another 
      */
-    compareTo(another: CardHand) : number {
-        if (this.type == CardUtil.Cards_Type_Joker_Bomb) {//王炸最大
+    static compareTo(one: CardHand, another: CardHand) : number {
+        if (one.type == CardUtil.Cards_Type_Joker_Bomb) {//王炸最大
             return 1;
         }
         if (another.type == CardUtil.Cards_Type_Joker_Bomb) {//王炸最大
             return -1;
         }
-        if (this.type == CardUtil.Cards_Type_Bomb && another.type != CardUtil.Cards_Type_Bomb) {//炸弹大过一般牌
+        if (one.type == CardUtil.Cards_Type_Bomb && another.type != CardUtil.Cards_Type_Bomb) {//炸弹大过一般牌
             return 1;
         }
-        if (another.type == CardUtil.Cards_Type_Bomb && this.type != CardUtil.Cards_Type_Bomb) {//炸弹大过一般牌
+        if (another.type == CardUtil.Cards_Type_Bomb && one.type != CardUtil.Cards_Type_Bomb) {//炸弹大过一般牌
             return -1;
         }
-        if (this.type == another.type) {//类型相同，比较首张牌面值（已排序保证首张牌最大）
-            return DeckUtil.compareValue(this.values[0], another.values[0]);
+        if (one.type == another.type) {//类型相同，比较首张牌面值（已排序保证首张牌最大）
+            return DeckUtil.compareValue(one.values[0], another.values[0]);
         }
         return null;//类型不同，无法比较，返回null
     }

@@ -24,7 +24,7 @@ export default class GameFramePlayer extends cc.Component {
     private frameQueue: GameFrame<Object>[];
 
     /**
-     * 播放速度
+     * 播放速度，每秒多少帧
      */
     @property
     speed: number = 1;
@@ -36,6 +36,10 @@ export default class GameFramePlayer extends cc.Component {
      * 最近帧的版本号
      */
     version: number = 0;
+    /**
+     * 计时器
+     */
+    delta: number = 0;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -54,7 +58,15 @@ export default class GameFramePlayer extends cc.Component {
         
     }
 
-    update () {
+    update (delta: number) {
+        this.delta += delta;
+        if (this.delta > 1) {
+            this.delta -= 1;
+        }
+        this.updateFrame();
+    }
+
+    updateFrame() {
         let i = this.speed;
         while(i -- > 0) {
             const frame = this.frameQueue[this.version + 1];

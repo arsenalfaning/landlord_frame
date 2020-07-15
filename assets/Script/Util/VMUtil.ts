@@ -39,6 +39,12 @@ export default class VMUtil{
         return VM.get<GamerBean>(RIGHT).$data;
     }
 
+    static updateGamers() {
+        VM.setValue(MYSELF + ".state", this.getMyself().state);
+        VM.setValue(LEFF + ".state", this.getLeft().state);
+        VM.setValue(RIGHT + ".state", this.getRight().state);
+    }
+
     static getGamers(): GamerBean[] {
         return [this.getMyself(), this.getLeft(), this.getRight()];
     }

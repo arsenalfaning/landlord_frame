@@ -26,9 +26,9 @@ export default class CardClickTemplate extends CardTemplate {
         this.selected = !this.selected;
         var vec2 = this.node.getPosition();
         if (this.selected) {
-            vec2.y += 40;
+            vec2.y += 20;
         } else {
-            vec2.y -= 40;
+            vec2.y -= 20;
         }
         this.node.setPosition(vec2);
     }

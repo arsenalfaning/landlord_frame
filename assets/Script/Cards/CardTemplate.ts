@@ -16,7 +16,7 @@ export default class CardTemplate extends cc.Component {
     sprite: cc.Sprite = null;
     @property(cc.Prefab)
     cardConstPrefab: cc.Prefab = null;
-    _value: Number = 0;
+    _value: number = 0;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -28,7 +28,7 @@ export default class CardTemplate extends cc.Component {
 
     }
 
-    setValue(value: Number) {
+    setValue(value: number) {
         this._value = value;
         this.sprite.spriteFrame = this.cardConstPrefab.data.getComponent(CardConst).getSpriteFrameByValue(this._value);
     }

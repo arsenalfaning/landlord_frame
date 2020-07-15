@@ -33,7 +33,7 @@ export default class CardSuggestUtil {
                 out = this._suggestSingle(cs, lastHand);
                 break;
             case CardUtil.Cards_Type_Double:
-                out = this._suggestSingle(cs, lastHand);
+                out = this._suggestDouble(cs, lastHand);
                 break;
             case CardUtil.Cards_Type_Triple:
             case CardUtil.Cards_Type_Triple_Append_Single:

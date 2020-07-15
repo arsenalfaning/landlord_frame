@@ -12,6 +12,9 @@ import VMUtil from "../Util/VMUtil";
 import CardSuggestUtil from "../Util/CardSuggestUtil";
 import CardHand from "../Util/CardHand";
 import CardBundleClick from "../Cards/CardBundleClick";
+import CardRuleUtil from "../Util/CardRuleUtil";
+import CardUtil from "../Util/CardUtil";
+import ResultBean from "../Bean/ResultBean";
 
 export enum GamerState {
     WaitingForMatch = 0,//等待匹配
@@ -20,7 +23,7 @@ export enum GamerState {
     WaitingForApprove = 3,//等待别人抢地主
     Playing  = 9,//正在出牌
     WaitingForPlay  = 5,//等待别人出牌
-    ViewingResult = 10,//查看游戏结果
+    ViewingResult = 6,//查看游戏结果
 }
 
 
@@ -95,8 +98,54 @@ export default class GamerLogic extends cc.Component {
         if (hand) {
             this.bundleClick.setSelected(hand.cards);
         } else { //提示要不起
-
+            //TODO 
         }
+    }
+
+    /**
+     * 出牌
+     */
+    onPlay() {
+        const cards = this.bundleClick.getSelcted();
+        if (cards.length > 0) {
+            const game = VMUtil.getGameBean();
+            const lastPlay = game.validPlayCurrentRound();
+            const hand = lastPlay ? CardSuggestUtil.suggest(cards, lastPlay.hand) : CardRuleUtil.confirmType(cards);
+            if (hand) {
+                this.player.sendAction(ActionFactory.build(GameAction.Play, hand));
+            } else {
+                //TODO 提示出牌无效
+            }
+        }
+        
+    }
+
+    /**
+     * 不出
+     */
+    onNotPlay() {
+        this.player.sendAction(ActionFactory.build(GameAction.Play, new CardHand([], [], CardUtil.Cards_Type_None)));
+    }
+
+    /**
+     * 通知服务器游戏结束
+     */
+    doEnd() {
+        const resultList = [];
+        const gamers = VMUtil.getGamers();
+        const winner = gamers.filter(e => e.cards.length == 0)[0];
+        const flag = winner.landlord == 1;
+        gamers.forEach(g => {
+            let result = new ResultBean();
+            result.gamerId = g.gamerId;
+            if (g.landlord == 1) {
+                result.point = flag ? 200 : -200;
+            } else {
+                result.point = flag ? -100 : 100;
+            }
+            resultList.push(result);
+        });
+        this.player.sendAction(ActionFactory.build(GameAction.Over, resultList));
     }
     // update (dt) {}
 }

@@ -5,7 +5,6 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import GameFrame from "../Net/GameFrame";
 import ActionBean from "../Bean/ActionBean";
 import ActionExecutor from "../Action/ActionExecutor";
 

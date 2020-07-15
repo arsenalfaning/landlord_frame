@@ -155,7 +155,6 @@ export default class VMState extends VMBase {
     //当值被改变时
     protected onValueChanged(newVar:any,oldVar:any,pathArr:any[]){
         this.checkNodeFromValue(newVar);
-
     }
 
     //检查节点值更新

@@ -25,6 +25,7 @@ export default class GamerBean {
      * 手中剩余牌
      */
     cards: number[] = [];
+    
     /**
      * 是否是地主
      */
@@ -33,4 +34,12 @@ export default class GamerBean {
      * 当前状态
      */
     state: GamerState = GamerState.WaitingForMatch;
+    /**
+     * 当前展示的出牌
+     */
+    hand: number[] = [];
+    /**
+     * 不出
+     */
+    notPlay: number = 0;
 }

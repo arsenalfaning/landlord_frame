@@ -14,6 +14,7 @@ import ActionFactory from "./ActionFactory";
 import { GamerState } from "../Logic/GamerLogic";
 import DeckUtil from "../Util/DeckUtil";
 import OrderUtil from "../Util/OrderUtil";
+import CardHand from "../Util/CardHand";
 
 export default class ActionExecutor {
 
@@ -90,6 +91,20 @@ export default class ActionExecutor {
                 game.approve(value);
             } else {
                 console.warn("error game state:" + game.state + " for action approve");
+            }
+        } else if (this.actionBean.action == GameAction.Play) {//出牌
+            if (game.state == GameState.Playing) {
+                if (game.currentOrder == this.actionBean.order) {
+                    //1.接收数据
+                    const hand = this.actionBean.data as CardHand;
+                    if (!game.playCards(hand)) {
+                        console.warn("invalid play cards: " + hand.cards + " for order " + game.currentOrder);
+                    }
+                } else {
+                    console.warn("error play order:" + this.actionBean.order + " for action play while game's playing order is " + game.currentOrder);
+                }
+            } else  {
+                console.warn("error game state:" + game.state + " for action play");
             }
         }
     }

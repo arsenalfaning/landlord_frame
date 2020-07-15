@@ -49,7 +49,7 @@ export class JsonOb<T> {
                     return oldVal;
                 },
                 set: function (newVal) {
-                    //cc.log(newVal);
+                    // cc.log(newVal);
                     if (oldVal !== newVal) {
                         if (OP.toString.call(newVal) === '[object Object]') {
                             self.observe(newVal, pathArray);

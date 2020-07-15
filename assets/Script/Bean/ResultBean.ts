@@ -5,21 +5,10 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import CardHand from "../Util/CardHand";
-import GamerBean from "./GamerBean";
+const {ccclass, property} = cc._decorator;
 
-/**
- * 玩家一次出牌
- */
-export default class PlayBean {
+export default class ResultBean {
 
-    /**
-     * 出牌的玩家order
-     */
-    order: number;
-    /**
-     * 所出的牌，包括要不起
-     */
-    hand: CardHand;
-
+    gamerId: string;
+    point: number;
 }
