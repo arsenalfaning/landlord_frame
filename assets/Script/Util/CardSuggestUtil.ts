@@ -157,11 +157,11 @@ export default class CardSuggestUtil {
                 }
             } else if (lastHand.append.length == 2) {
                 if (cs.doubleArray.length > 0) {
-                    append.concat(cs.doubleArray[cs.doubleArray.length - 1]);
+                    append = append.concat(cs.doubleArray[cs.doubleArray.length - 1]);
                 } else if (cs.tripleArray.length > 0) {
                     for (let i = 0; i < cs.tripleArray.length; i ++) {
                         if (!set.has(cs.tripleArray[i][0])) {
-                            append.concat(cs.tripleArray[i]);
+                            append = append.concat(cs.tripleArray[i]);
                             break;
                         }
                     }
@@ -191,21 +191,21 @@ export default class CardSuggestUtil {
             let append: number[] = [];
             if (lastHand.append.length == 2) {
                 if (cs.singleArray.length >= 2) {
-                    append.concat([cs.singleArray[cs.singleArray.length - 2], cs.singleArray[cs.singleArray.length - 1] ]);
+                    append = append.concat([cs.singleArray[cs.singleArray.length - 2], cs.singleArray[cs.singleArray.length - 1] ]);
                 } else if (cs.doubleArray.length > 0) {
-                    append.concat(cs.doubleArray[cs.doubleArray.length - 1]);
+                    append = append.concat(cs.doubleArray[cs.doubleArray.length - 1]);
                 } else if (cs.tripleArray.length > 0) {
-                    append.concat(cs.tripleArray[cs.tripleArray.length - 1].splice(0, 2));
+                    append = append.concat(cs.tripleArray[cs.tripleArray.length - 1].slice(0, 2));
                 } else {
                     return;
                 }
             } else if (lastHand.append.length == 4) {
                 if (cs.doubleArray.length >= 2) {
-                    append.concat(cs.doubleArray[cs.doubleArray.length - 2]);
-                    append.concat(cs.doubleArray[cs.doubleArray.length - 1]);
+                    append = append.concat(cs.doubleArray[cs.doubleArray.length - 2]);
+                    append = append.concat(cs.doubleArray[cs.doubleArray.length - 1]);
                 } else if (cs.tripleArray.length >= 2) {
-                    append.concat(cs.tripleArray[cs.tripleArray.length - 2].splice(0, 2));
-                    append.concat(cs.tripleArray[cs.tripleArray.length - 1].splice(0, 2));
+                    append = append.concat(cs.tripleArray[cs.tripleArray.length - 2].slice(0, 2));
+                    append = append.concat(cs.tripleArray[cs.tripleArray.length - 1].slice(0, 2));
                 } else {
                     return;
                 }
@@ -240,8 +240,8 @@ export default class CardSuggestUtil {
             }
         } else if (lastHand.type == CardUtil.Cards_Type_Double_Straight) {
             let arr: number[] = [];
-            cs.doubleArray.forEach(e => arr.concat(e));
-            cs.tripleArray.forEach(e => arr.concat(e.slice(0, 2)));
+            cs.doubleArray.forEach(e => arr = arr.concat(e));
+            cs.tripleArray.forEach(e => arr = arr.concat(e.slice(0, 2)));
             if (arr.length < lastHand.values.length) return;
             DeckUtil.sort(arr);
             let values: number[] = [];
@@ -260,7 +260,7 @@ export default class CardSuggestUtil {
             }
         } else {
             let arr: number[] = [];
-            cs.tripleArray.forEach(e => arr.concat(e));
+            cs.tripleArray.forEach(e => arr = arr.concat(e));
             if (arr.length < lastHand.values.length) return;
             DeckUtil.sort(arr);
             let values: number[] = [];
@@ -313,14 +313,14 @@ export default class CardSuggestUtil {
                 } else if (lastHand.type == CardUtil.Cards_Type_Triple_Straight_Append_Double) {
                     for (let i = cs.doubleArray.length - 1; i >= 0; i --) {
                         if (append.length == values.length / 3 * 2) break;
-                        append.concat(cs.doubleArray[i]);
+                        append = append.concat(cs.doubleArray[i]);
                     }
                     for (let i = cs.tripleArray.length - 1; i >= 0; i --) {
                         if (valueSet.has(cs.tripleArray[i][0])) {
                             continue;
                         }
                         if (append.length == values.length / 3 * 2) break;
-                        append.concat(cs.tripleArray[i].splice(0, 2));
+                        append = append.concat(cs.tripleArray[i].slice(0, 2));
                     }
                     if (append.length == values.length / 3 * 2) {
                         return new CardHand(values, append, lastHand.type);

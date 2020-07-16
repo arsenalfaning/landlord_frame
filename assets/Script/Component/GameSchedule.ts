@@ -42,7 +42,6 @@ export default class GameSchedule extends cc.Component {
     }
 
     updateBySchedule() {
-        console.log("updateBySchedule")
         if (!this.executed) {
             const d = this.deltaTime + new Date().getTime() - this.actionTime;
             if (d >= this.timeout) {//满足执行条件
@@ -68,7 +67,6 @@ export default class GameSchedule extends cc.Component {
         
         if (delta > 0) {
             const times = Math.max(parseInt((delta / 1000).toFixed(0)), 2);
-            console.log(times);
             this.unscheduleAllCallbacks();
             this.schedule(this.updateBySchedule, 1, times);
         }

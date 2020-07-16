@@ -88,12 +88,7 @@ export default class GamerLogic extends cc.Component {
     onSuggest() {
         const game = VMUtil.getGameBean();
         const play = game.validPlayCurrentRound();
-        let hand: CardHand = null;
-        if (play) {
-            hand = CardSuggestUtil.suggest(VMUtil.getMyself().cards, play.hand);
-        } else {
-            hand = CardSuggestUtil.suggest(VMUtil.getMyself().cards);
-        }
+        let hand: CardHand = CardSuggestUtil.suggest(VMUtil.getMyself().cards, play ? play.hand : null);
         if (hand) {
             this.bundleClick.setSelected(hand.cards);
         } else { //提示要不起
@@ -110,11 +105,13 @@ export default class GamerLogic extends cc.Component {
             const game = VMUtil.getGameBean();
             const lastPlay = game.validPlayCurrentRound();
             const hand = lastPlay ? CardSuggestUtil.suggest(cards, lastPlay.hand) : CardRuleUtil.confirmType(cards);
-            if (hand) {
+            if (hand && hand.cards.length == cards.length) {
                 this.player.sendAction(ActionFactory.build(GameAction.Play, hand));
             } else {
                 //TODO 提示出牌无效
-                console.log()
+                console.log("出牌无效");
+                console.log(cards);
+                console.log(hand);
             }
         }
         
@@ -124,6 +121,7 @@ export default class GamerLogic extends cc.Component {
      * 不出
      */
     onNotPlay() {
+        this.bundleClick.setSelected([]);
         this.player.sendAction(ActionFactory.build(GameAction.Play, new CardHand([], [], CardUtil.Cards_Type_None)));
     }
     // update (dt) {}
