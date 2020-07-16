@@ -231,7 +231,7 @@ export default class CardSuggestUtil {
                 if (DeckUtil.compareValue(list[i], lastHand.values[lastHand.values.length - 1]) > 0 && DeckUtil.compareValue(list[i], list[i - 1]) == -1) {
                     values.unshift(list[i]);
                     if (values.length == lastHand.values.length - 1) {
-                        values.push(list[i - 1]);
+                        values.unshift(list[i - 1]);
                         return new CardHand(values, [], CardUtil.Cards_Type_Straight);
                     }
                 } else {

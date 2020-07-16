@@ -29,9 +29,17 @@ export default class GameFramePlayer extends cc.Component {
     @property
     speed: number = 1;
     /**
-     * 最近帧的服务器时间
+     * 最近帧发生时服务器时间
      */
     time: number;
+    /**
+     * 最近帧的服务器发送时间
+     */
+    serverTime: number;
+    /**
+     * 服务器时间对应的客户端时间
+     */
+    clientTime: number;
     /**
      * 最近帧的版本号
      */
@@ -40,6 +48,7 @@ export default class GameFramePlayer extends cc.Component {
      * 计时器
      */
     delta: number = 0;
+
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -62,6 +71,7 @@ export default class GameFramePlayer extends cc.Component {
         this.delta += delta;
         if (this.delta > 1) {
             this.delta -= 1;
+            
         }
         this.updateFrame();
     }
@@ -72,9 +82,13 @@ export default class GameFramePlayer extends cc.Component {
             const frame = this.frameQueue[this.version + 1];
             if (frame) {
                 this.time = frame.t;
+                this.serverTime = frame.st;
+                this.clientTime = new Date().getTime();
                 this.version ++;
                 if (frame.a && frame.a.length > 0) {
-                    this.gameLogic.updateAction(frame.a).forEach(this.socket.sendAction.bind(this.socket));
+                    this.gameLogic.updateAction(frame.a).forEach( a => {
+                        this.sendAction(a, frame);
+                    });
                 }
             } else {//处理可能的丢帧问题
                 //TODO 
@@ -82,11 +96,18 @@ export default class GameFramePlayer extends cc.Component {
         }
     }
 
-    sendAction(action: ActionBean<any>) {
+    sendAction(action: ActionBean<any>, frame?: GameFrame<any>) {
+        if (frame && frame.st - frame.t > 1000) {//落后最新赛况太久，不允许操作
+            return;
+        }
         this.socket.sendAction(action);
     }
 
     onDestroy() {
         this.socket.onClose();
+    }
+
+    lastFrame() {
+        return this.frameQueue[this.version];
     }
 }

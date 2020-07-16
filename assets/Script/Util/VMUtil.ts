@@ -17,6 +17,10 @@ const RIGHT:string = "right";
 export default class VMUtil{
 
     static init() {
+        VM.remove(GAME);
+        VM.remove(MYSELF);
+        VM.remove(LEFF);
+        VM.remove(RIGHT);
         VM.add(new GameBean(), GAME);
         VM.add(new GamerBean(), MYSELF);
         VM.add(new GamerBean(), LEFF);

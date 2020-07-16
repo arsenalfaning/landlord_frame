@@ -5,7 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import { GameAction } from "./GameLogic";
+import { GameAction, GameState } from "./GameLogic";
 import GameFramePlayer from "../Component/GameFramePlayer";
 import ActionFactory from "../Action/ActionFactory";
 import VMUtil from "../Util/VMUtil";
@@ -27,38 +27,38 @@ export enum GamerState {
 }
 
 
-/**
- * 玩家操作变化类
- */
-class GamerTransition {
-    /**
-     * 当前状态
-     */
-    currentState: GamerState;
-    /**
-     * 操作
-     */
-    action: GameAction;
-    /**
-     * 下一个状态
-     */
-    nextState: GamerState;
+// /**
+//  * 玩家操作变化类
+//  */
+// class GamerTransition {
+//     /**
+//      * 当前状态
+//      */
+//     currentState: GamerState;
+//     /**
+//      * 操作
+//      */
+//     action: GameAction;
+//     /**
+//      * 下一个状态
+//      */
+//     nextState: GamerState;
 
-    constructor(currentState: GamerState, action: GameAction, nextState: GamerState) {
-        this.currentState = currentState;
-        this.action = action;
-        this.nextState = nextState;
-    }
-}
+//     constructor(currentState: GamerState, action: GameAction, nextState: GamerState) {
+//         this.currentState = currentState;
+//         this.action = action;
+//         this.nextState = nextState;
+//     }
+// }
 
-const GamerTransitions: GamerTransition[] = [
-    new GamerTransition(GamerState.WaitingForMatch, GameAction.Room, GamerState.WaitingForDeal),
-    new GamerTransition(GamerState.WaitingForDeal, GameAction.Deal, GamerState.WaitingForApprove),
-    new GamerTransition(GamerState.Approving, GameAction.Approve, GamerState.WaitingForApprove),
-    new GamerTransition(GamerState.WaitingForApprove, GameAction.DealAdditional, GamerState.WaitingForPlay),
-    new GamerTransition(GamerState.Playing, GameAction.Play, GamerState.WaitingForPlay),
-    new GamerTransition(GamerState.WaitingForPlay, GameAction.Over, GamerState.ViewingResult),
-];
+// const GamerTransitions: GamerTransition[] = [
+//     new GamerTransition(GamerState.WaitingForMatch, GameAction.Room, GamerState.WaitingForDeal),
+//     new GamerTransition(GamerState.WaitingForDeal, GameAction.Deal, GamerState.WaitingForApprove),
+//     new GamerTransition(GamerState.Approving, GameAction.Approve, GamerState.WaitingForApprove),
+//     new GamerTransition(GamerState.WaitingForApprove, GameAction.DealAdditional, GamerState.WaitingForPlay),
+//     new GamerTransition(GamerState.Playing, GameAction.Play, GamerState.WaitingForPlay),
+//     new GamerTransition(GamerState.WaitingForPlay, GameAction.Over, GamerState.ViewingResult),
+// ];
 
 const {ccclass, property} = cc._decorator;
 @ccclass
@@ -69,7 +69,6 @@ export default class GamerLogic extends cc.Component {
 
     private player: GameFramePlayer = null;
     private bundleClick: CardBundleClick = null;
-    private lastHand: CardHand = null;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -115,6 +114,7 @@ export default class GamerLogic extends cc.Component {
                 this.player.sendAction(ActionFactory.build(GameAction.Play, hand));
             } else {
                 //TODO 提示出牌无效
+                console.log()
             }
         }
         
@@ -125,27 +125,6 @@ export default class GamerLogic extends cc.Component {
      */
     onNotPlay() {
         this.player.sendAction(ActionFactory.build(GameAction.Play, new CardHand([], [], CardUtil.Cards_Type_None)));
-    }
-
-    /**
-     * 通知服务器游戏结束
-     */
-    doEnd() {
-        const resultList = [];
-        const gamers = VMUtil.getGamers();
-        const winner = gamers.filter(e => e.cards.length == 0)[0];
-        const flag = winner.landlord == 1;
-        gamers.forEach(g => {
-            let result = new ResultBean();
-            result.gamerId = g.gamerId;
-            if (g.landlord == 1) {
-                result.point = flag ? 200 : -200;
-            } else {
-                result.point = flag ? -100 : 100;
-            }
-            resultList.push(result);
-        });
-        this.player.sendAction(ActionFactory.build(GameAction.Over, resultList));
     }
     // update (dt) {}
 }

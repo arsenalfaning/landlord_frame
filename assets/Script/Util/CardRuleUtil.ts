@@ -122,7 +122,7 @@ export default class CardRuleUtil {
         for (let i = 0; i < cards.length - 2;) {
             if (DeckUtil.compareValue(cards[i], cards[i + 2]) == 0) {
                 let arr = cards.slice(i, i + 3);
-                values.concat(arr);
+                values = values.concat(arr);
                 arr.forEach(e => valueSet.add(e));
                 i += 3;
             } else {
@@ -132,9 +132,9 @@ export default class CardRuleUtil {
         let append = cards.filter(e => !valueSet.has(e));
         if (this._isNStraight(values, 3)) {
             if (append.length == 0) {
-                return new CardHand(cards, append, CardUtil.Cards_Type_Triple_Straight);
+                return new CardHand(values, append, CardUtil.Cards_Type_Triple_Straight);
             } else if (append.length == values.length / 3) {
-                return new CardHand(cards, append, CardUtil.Cards_Type_Triple_Straight_Append_Single);
+                return new CardHand(values, append, CardUtil.Cards_Type_Triple_Straight_Append_Single);
             } else if (append.length == values.length * 2 / 3) {
                 let flag = true;
                 for (let j = 0; j < append.length - 1; j +=2) {
@@ -143,7 +143,7 @@ export default class CardRuleUtil {
                     }
                 }
                 if (flag) {
-                    return new CardHand(cards, append, CardUtil.Cards_Type_Triple_Straight_Append_Double);
+                    return new CardHand(values, append, CardUtil.Cards_Type_Triple_Straight_Append_Double);
                 }
             }
         }

@@ -18,9 +18,13 @@ export default class GameFrame<T> {
      */
     v: number;
     /**
-     * 该帧产生时的服务器时间
+     * 该动作发生的时间
      */
     t: number;
+    /**
+     * 服务器发送该帧时的时间
+     */
+    st: number;
     /**
      * 动作数组
      */

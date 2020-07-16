@@ -7,6 +7,8 @@
 
 import ActionBean from "../Bean/ActionBean";
 import ActionExecutor from "../Action/ActionExecutor";
+import GameBean from "../Bean/GameBean";
+import VMUtil from "../Util/VMUtil";
 
 /**
  * 游戏状态
@@ -33,7 +35,7 @@ export enum GameAction {
     Reset = 7,//重新开始
 }
 
-const {ccclass, property} = cc._decorator;
+const {ccclass} = cc._decorator;
 
 @ccclass
 export default class GameLogic extends cc.Component {
@@ -44,12 +46,13 @@ export default class GameLogic extends cc.Component {
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        
+
     }
 
     start () {
         
     }
+
 
     //执行action
     updateAction (actionList: ActionBean<Object>[]): ActionBean<any>[] {
@@ -61,5 +64,9 @@ export default class GameLogic extends cc.Component {
             }
         }
         return ret;
+    }
+
+    back() {
+        cc.director.loadScene("Welcome");
     }
 }

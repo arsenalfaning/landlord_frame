@@ -36,10 +36,8 @@ export default class CardBundleHidden extends CardBundleStatic {
         }
     }
 
-    setShow(state) {
-        if (state == GameState.GameOver) {
-            super.setData(this.cards);
-        }
+    setShow() {
+        super.setData(this.cards);
     }
 
     // update (dt) {}

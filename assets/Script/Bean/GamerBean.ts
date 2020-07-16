@@ -42,4 +42,8 @@ export default class GamerBean {
      * 不出
      */
     notPlay: number = 0;
+    /**
+     * 游戏结果
+     */
+    pointDelta: number = 0;
 }

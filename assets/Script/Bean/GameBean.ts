@@ -7,7 +7,7 @@
 
 import PlayBean from "./PlayBean";
 import Random from "../Util/Random";
-import { GameState } from "../Logic/GameLogic";
+import { GameState, GameAction } from "../Logic/GameLogic";
 import OrderUtil from "../Util/OrderUtil";
 import VMUtil from "../Util/VMUtil";
 import { GamerState } from "../Logic/GamerLogic";
@@ -16,6 +16,11 @@ import CardHand from "../Util/CardHand";
 import GamerBean from "./GamerBean";
 import CardSuggestUtil from "../Util/CardSuggestUtil";
 import DeckUtil from "../Util/DeckUtil";
+import GameSchedule from "../Component/GameSchedule";
+import ResultBean from "./ResultBean";
+import ActionFactory from "../Action/ActionFactory";
+import ActionBean from "./ActionBean";
+import GameFramePlayer from "../Component/GameFramePlayer";
 
 export default class GameBean {
 
@@ -23,6 +28,10 @@ export default class GameBean {
      * 地主底牌
      */
     holeCards: number[] = [];
+    /**
+     * 累计的回合数
+     */
+    turnTotal: number = 0;
     /**
      * 该轮出牌数组，索引越大，出牌越晚
      */
@@ -51,12 +60,16 @@ export default class GameBean {
      * 抢地主历史
      */
     approveHistory: boolean[] = [];
+    /**
+     * 倒计时显示，最小为0
+     */
+    time: number = 0;
 
     /**
      * 判断回合属于哪个order
      */
     turn() {
-        this.currentOrder = OrderUtil.nextOrder(this.currentOrder);
+        this.setCurrentOrder(OrderUtil.nextOrder(this.currentOrder));
         if (this.state == GameState.Approving) {
             VMUtil.getGamers().forEach(gamer => {
                 if (gamer.order == this.currentOrder) {
@@ -128,13 +141,13 @@ export default class GameBean {
     /**
      * 执行出牌
      */
-    playCards(hand: CardHand): boolean {
+    playCards(hand: CardHand): ActionBean<any> {
         const gamers = VMUtil.getGamers();
         const playingGamer = gamers.filter(e => e.order == this.currentOrder)[0];
         //0.要不起且不是发牌，则执行出牌
         if (hand.type == CardUtil.Cards_Type_None && this.playRound.length > 0) {
             this.doPlayCards(hand, playingGamer);
-            return true;
+            return;
         }
         let flag = true;
         //1.判断是否比前一次出牌大
@@ -142,6 +155,8 @@ export default class GameBean {
         if (lastPlay) {
             const sh = CardSuggestUtil.suggest(hand.cards, lastPlay.hand);
             flag = sh && sh.cards.length == hand.cards.length && CardHand.compareTo(hand, lastPlay.hand) > 0;
+            console.log(hand);
+            console.log(lastPlay.hand)
         }
         //2.判断是否有牌
         if (flag) {
@@ -160,12 +175,12 @@ export default class GameBean {
         }
         //3.执行出牌
         if (flag) {
-            this.doPlayCards(hand, playingGamer);
+            return this.doPlayCards(hand, playingGamer);
         }
-        return flag;
+        return;
     }
 
-    private doPlayCards(hand: CardHand, gamer: GamerBean) {
+    private doPlayCards(hand: CardHand, gamer: GamerBean): ActionBean<any> {
         const pb = new PlayBean();
         const gamers = VMUtil.getGamers();
         pb.hand = hand;
@@ -186,6 +201,21 @@ export default class GameBean {
             //TODO 执行结束
             this.state = GameState.GameOver;
             gamers.forEach(g => g.state = GamerState.ViewingResult);
+            const resultList: ResultBean[] = [];
+            const winner = gamers.filter(e => e.cards.length == 0)[0];
+            const flag = winner.landlord == 1;
+            gamers.forEach(g => {
+                let result = new ResultBean();
+                result.gamerId = g.gamerId;
+                if (g.landlord == 1) {
+                    result.point = flag ? 200 : -200;
+                } else {
+                    result.point = flag ? -100 : 100;
+                }
+                g.pointDelta = result.point;
+                resultList.push(result);
+            });
+            return ActionFactory.build(GameAction.Over, resultList);
         } else {
             this.turn();
             const lastPlay = this.validPlayCurrentRound();
@@ -228,6 +258,24 @@ export default class GameBean {
             }
         });
         this.state = GameState.Playing;
-        this.currentOrder = order;
+        this.setCurrentOrder(order);
     }
+
+    private setCurrentOrder(order: number) {
+        this.currentOrder = order;
+        this.turnTotal ++;
+    }
+
+    botAction(turn: number): ActionBean<any> {
+        if (turn == this.turnTotal) {
+            if (this.state == GameState.Approving) {
+                return ActionFactory.buildForBot(GameAction.Approve, this.currentOrder, false);
+            } else if (this.state == GameState.Playing) {
+                const play = this.validPlayCurrentRound();
+                let hand = CardSuggestUtil.suggest(VMUtil.getMyself().cards, play ? play.hand : null);
+                return ActionFactory.buildForBot(GameAction.Play, this.currentOrder, hand ? hand : new CardHand([],[], CardUtil.Cards_Type_None));
+            }
+        }
+    }
+
 }

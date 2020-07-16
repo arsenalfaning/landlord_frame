@@ -23,4 +23,14 @@ export default class ActionFactory {
         ab.action = action;
         return ab;
     }
+
+    static buildForBot<T>(action: GameAction, order: number, data?: T) : ActionBean<T> {
+        const ab = new ActionBean<T>();
+        ab.order = order;
+        if (data) {
+            ab.data = data;
+        }
+        ab.action = action;
+        return ab;
+    }
 }

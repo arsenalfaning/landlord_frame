@@ -97,9 +97,7 @@ export default class ActionExecutor {
                 if (game.currentOrder == this.actionBean.order) {
                     //1.接收数据
                     const hand = this.actionBean.data as CardHand;
-                    if (!game.playCards(hand)) {
-                        console.warn("invalid play cards: " + hand.cards + " for order " + game.currentOrder);
-                    }
+                    return game.playCards(hand);
                 } else {
                     console.warn("error play order:" + this.actionBean.order + " for action play while game's playing order is " + game.currentOrder);
                 }
