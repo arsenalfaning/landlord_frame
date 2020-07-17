@@ -7,7 +7,7 @@
 
 import CardBundleStatic from "./CardBundleStatic";
 import CardTemplate from "./CardTemplate";
-import { GameState } from "../Logic/GameLogic";
+import VMUtil from "../Util/VMUtil";
 
 const {ccclass, property} = cc._decorator;
 
@@ -27,7 +27,8 @@ export default class CardBundleHidden extends CardBundleStatic {
                     var value = 0;
                     var node = cc.instantiate(this.cardPrefab);
                     var ct = node.getComponent(CardTemplate);
-                    ct.setValue(value);
+                    const gamer = VMUtil.getGamerByTag(this.landlordTag);
+                    ct.setValue(value, gamer ? gamer.landlord == 1 : false);
                     this.node.addChild(node);
                     this._cardTemplates.push(ct);
                     this.cardTemplateMap.set(value, ct);

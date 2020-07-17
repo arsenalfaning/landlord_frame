@@ -13,6 +13,7 @@ const GAME:string = "game";
 const MYSELF:string = "myself";
 const LEFF:string = "left";
 const RIGHT:string = "right";
+const LANDLORD:string = "landlord";
 
 export default class VMUtil{
 
@@ -21,6 +22,7 @@ export default class VMUtil{
         VM.remove(MYSELF);
         VM.remove(LEFF);
         VM.remove(RIGHT);
+        VM.remove(LANDLORD);
         VM.add(new GameBean(), GAME);
         VM.add(new GamerBean(), MYSELF);
         VM.add(new GamerBean(), LEFF);
@@ -57,4 +59,13 @@ export default class VMUtil{
         return VM.getValue(path);
     }
 
+    static getGamerByTag(tag: string): GamerBean {
+        const data = VM.get<GamerBean>(tag);
+        if (data) return data.$data;
+        return null;
+    }
+
+    static setLandlord(gamer: GamerBean) {
+        VM.add(gamer, LANDLORD);
+    }
 }

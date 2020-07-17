@@ -248,6 +248,9 @@
         "__uuid__": "74db6ebe-3075-4b74-bc5b-75dc64b9b117"
       }
     ],
+    "landlordFrame": {
+      "__uuid__": "c0ad5fc6-69bc-4ecb-bc55-189635dc43df"
+    },
     "_id": ""
   },
   {
@@ -256,7 +259,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "62723a2e-0318-481c-ab2b-f5e786217665"
     },
     "fileId": "7c6C+pDFlMwpD2RASXfSoO",
     "sync": false

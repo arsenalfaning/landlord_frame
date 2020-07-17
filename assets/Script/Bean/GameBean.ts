@@ -260,6 +260,7 @@ export default class GameBean {
                 const nc = gamer.cards.concat(this.holeCards);
                 DeckUtil.sort(nc);
                 gamer.cards =  nc;
+                VMUtil.setLandlord(gamer);
             } else {
                 gamer.landlord = 0;
                 gamer.state = GamerState.WaitingForPlay;

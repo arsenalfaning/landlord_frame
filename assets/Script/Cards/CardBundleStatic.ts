@@ -7,6 +7,7 @@
 
 import CardTemplate from "./CardTemplate";
 import GamerBean from "../Bean/GamerBean";
+import VMUtil from "../Util/VMUtil";
 
 const {ccclass, property} = cc._decorator;
 
@@ -15,7 +16,8 @@ export default class CardBundleStatic extends cc.Component {
 
     @property(cc.Prefab)
     cardPrefab: cc.Prefab = null;
-
+    @property(cc.String)
+    landlordTag: string = '';
     _cardTemplates: CardTemplate[] = [];
 
     cardTemplateMap: Map<number, CardTemplate> = new Map();
@@ -35,7 +37,8 @@ export default class CardBundleStatic extends cc.Component {
                     var value = cards[i];
                     var node = cc.instantiate(this.cardPrefab);
                     var ct = node.getComponent(CardTemplate);
-                    ct.setValue(value);
+                    const gamer = VMUtil.getGamerByTag(this.landlordTag);
+                    ct.setValue(value, gamer ? gamer.landlord == 1 : false);
                     this.node.addChild(node);
                     this._cardTemplates.push(ct);
                     this.cardTemplateMap.set(value, ct);

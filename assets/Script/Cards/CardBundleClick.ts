@@ -8,6 +8,7 @@
 import CardBundleStatic from "./CardBundleStatic";
 import CardClickTemplate from "./CardClickTemplate";
 import CardTemplate from "./CardTemplate";
+import VMUtil from "../Util/VMUtil";
 
 const {ccclass, property} = cc._decorator;
 
@@ -35,7 +36,7 @@ export default class CardBundleClick extends CardBundleStatic {
                     var value = cards[i];
                     var node = cc.instantiate(this.cardPrefab);
                     var ct = node.getComponent(CardTemplate);
-                    ct.setValue(value);
+                    ct.setValue(value, VMUtil.getMyself().landlord == 1);
                     this.node.addChild(node);
                     this._cardTemplates.push(ct);
                     this.cardTemplateMap.set(value, ct);

@@ -14,6 +14,8 @@ export default class CardTemplate extends cc.Component {
 
     @property(cc.Sprite)
     sprite: cc.Sprite = null;
+    @property(cc.Sprite)
+    landlord: cc.Sprite = null;
     @property(cc.Prefab)
     cardConstPrefab: cc.Prefab = null;
     _value: number = 0;
@@ -28,9 +30,13 @@ export default class CardTemplate extends cc.Component {
 
     }
 
-    setValue(value: number) {
+    setValue(value: number, isLandlord: boolean) {
         this._value = value;
-        this.sprite.spriteFrame = this.cardConstPrefab.data.getComponent(CardConst).getSpriteFrameByValue(this._value);
+        const cardConst = this.cardConstPrefab.data.getComponent(CardConst);
+        this.sprite.spriteFrame = cardConst.getSpriteFrameByValue(this._value);
+        if (isLandlord) {
+            this.landlord.spriteFrame = cardConst.landlordFrame;
+        }
     }
 
     // update (dt) {}

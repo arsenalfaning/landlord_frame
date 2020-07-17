@@ -12,6 +12,9 @@ export default class CardConst extends cc.Component{
 
     @property({type: cc.SpriteFrame})
     spriteFrames: cc.SpriteFrame[] = [];
+    
+    @property({type: cc.SpriteFrame})
+    landlordFrame: cc.SpriteFrame = null;
 
     _valueMap : Map<Number, Number> = (() => {
         const map = new Map<Number, Number>();

@@ -207,7 +207,7 @@
       "array": [
         0,
         0,
-        368.91881578773484,
+        368.91820544775544,
         0,
         0,
         0,
@@ -1458,6 +1458,7 @@
     "cardPrefab": {
       "__uuid__": "389b74a8-cf31-441d-abed-967e7f839d3f"
     },
+    "landlordTag": "myself",
     "_id": "c4lBnB9TxKcZO6X0ydEy1S"
   },
   {
@@ -3598,6 +3599,7 @@
     "cardPrefab": {
       "__uuid__": "58b8fe0f-2e6d-4c62-bf70-0ae7099d300e"
     },
+    "landlordTag": "myself",
     "_id": "70dqCGs1lLxq9H1WTOMZM+"
   },
   {
@@ -4713,6 +4715,7 @@
     "cardPrefab": {
       "__uuid__": "58b8fe0f-2e6d-4c62-bf70-0ae7099d300e"
     },
+    "landlordTag": "left",
     "_id": "15B4llpQ1B3YkVDVf8CQdt"
   },
   {
@@ -5559,6 +5562,7 @@
     "cardPrefab": {
       "__uuid__": "58b8fe0f-2e6d-4c62-bf70-0ae7099d300e"
     },
+    "landlordTag": "left",
     "_id": "f1vSe2IW5BXYX+dhXmmizH"
   },
   {
@@ -6559,6 +6563,7 @@
     "cardPrefab": {
       "__uuid__": "58b8fe0f-2e6d-4c62-bf70-0ae7099d300e"
     },
+    "landlordTag": "right",
     "_id": "b68zc32hJFtrNGpNiedsrq"
   },
   {
@@ -7405,6 +7410,7 @@
     "cardPrefab": {
       "__uuid__": "58b8fe0f-2e6d-4c62-bf70-0ae7099d300e"
     },
+    "landlordTag": "right",
     "_id": "43e2lXgjRFPra8FaspQzZI"
   },
   {
@@ -8200,7 +8206,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        270,
+        280,
         0,
         0,
         0,
@@ -8371,6 +8377,7 @@
     "cardPrefab": {
       "__uuid__": "58b8fe0f-2e6d-4c62-bf70-0ae7099d300e"
     },
+    "landlordTag": "landlord",
     "_id": "61amL2qmxPCIP5JD9pkztT"
   },
   {
