@@ -16,11 +16,10 @@ import CardHand from "../Util/CardHand";
 import GamerBean from "./GamerBean";
 import CardSuggestUtil from "../Util/CardSuggestUtil";
 import DeckUtil from "../Util/DeckUtil";
-import GameSchedule from "../Component/GameSchedule";
 import ResultBean from "./ResultBean";
 import ActionFactory from "../Action/ActionFactory";
 import ActionBean from "./ActionBean";
-import GameFramePlayer from "../Component/GameFramePlayer";
+import SoundPlayer from "../Component/SoundPlayer";
 
 export default class GameBean {
 
@@ -94,9 +93,12 @@ export default class GameBean {
      * 执行抢地主动作
      * @param value 
      */
-    approve(value: boolean) {
+    approve(value: boolean, soundPlayer: SoundPlayer) {
         //1.记录历史
+        soundPlayer.approveSound(value, this.approveHistory.length);
         this.approveHistory[this.currentOrder] = value;
+        const gamers = VMUtil.getGamers();
+        gamers.find(e => e.order == this.currentOrder).approve = value ? 1 : 0;
         //2.查看历史数据，判断是否满足结束条件
         if (this.approveHistory.length == 3) {
             if (!this.approveHistory[0]) {
@@ -141,11 +143,12 @@ export default class GameBean {
     /**
      * 执行出牌
      */
-    playCards(hand: CardHand): ActionBean<any> {
+    playCards(hand: CardHand, soundPlayer: SoundPlayer): ActionBean<any> {
         const gamers = VMUtil.getGamers();
         const playingGamer = gamers.filter(e => e.order == this.currentOrder)[0];
         //0.要不起且不是发牌，则执行出牌
         if (hand.type == CardUtil.Cards_Type_None && this.playRound.length > 0) {
+            soundPlayer.playSound(hand, false);
             this.doPlayCards(hand, playingGamer);
             return;
         }
@@ -155,8 +158,6 @@ export default class GameBean {
         if (lastPlay) {
             const sh = CardSuggestUtil.suggest(hand.cards, lastPlay.hand);
             flag = sh && sh.cards.length == hand.cards.length && CardHand.compareTo(hand, lastPlay.hand) > 0;
-            console.log(hand);
-            console.log(lastPlay.hand)
         }
         //2.判断是否有牌
         if (flag) {
@@ -175,12 +176,19 @@ export default class GameBean {
         }
         //3.执行出牌
         if (flag) {
-            return this.doPlayCards(hand, playingGamer);
+            soundPlayer.playSound(hand, !lastPlay);
+            const action = this.doPlayCards(hand, playingGamer);
+            if (action) {
+                const myself = VMUtil.getMyself();
+                const win = action.data.find(e => e.gamerId == myself.gamerId).point > 0;
+                soundPlayer.resultSound(win);
+            }
+            return action;
         }
         return;
     }
 
-    private doPlayCards(hand: CardHand, gamer: GamerBean): ActionBean<any> {
+    private doPlayCards(hand: CardHand, gamer: GamerBean): ActionBean<ResultBean[]> {
         const pb = new PlayBean();
         const gamers = VMUtil.getGamers();
         pb.hand = hand;
@@ -198,7 +206,6 @@ export default class GameBean {
             gamer.notPlay = 1;
         }
         if (this.isGameOver(gamers)) {
-            //TODO 执行结束
             this.state = GameState.GameOver;
             gamers.forEach(g => g.state = GamerState.ViewingResult);
             const resultList: ResultBean[] = [];
@@ -215,6 +222,7 @@ export default class GameBean {
                 g.pointDelta = result.point;
                 resultList.push(result);
             });
+            
             return ActionFactory.build(GameAction.Over, resultList);
         } else {
             this.turn();

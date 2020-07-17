@@ -66,15 +66,11 @@ export default class CardSuggestUtil {
         } 
         if (cs.doubleArray.length > 0) {
             const cards = cs.doubleArray.pop();
-            if (DeckUtil.compareValue(hand.cards[0], cards[0]) > 0) {
-                hand = new CardHand(cards, [], CardUtil.Cards_Type_Double); 
-            }
+            hand = new CardHand(cards, [], CardUtil.Cards_Type_Double); 
         }
         if (cs.tripleArray.length > 0) {
             const cards = cs.tripleArray.pop();
-            if (DeckUtil.compareValue(hand.cards[0], cards[0]) > 0) {
-                hand = new CardHand(cards, [], CardUtil.Cards_Type_Triple); 
-            }
+            hand = new CardHand(cards, [], CardUtil.Cards_Type_Triple);
         }
         if (!hand && cs.quadrupleArray.length > 0) {
             hand = new CardHand(cs.quadrupleArray.pop(), [], CardUtil.Cards_Type_Bomb);

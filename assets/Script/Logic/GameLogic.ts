@@ -7,8 +7,7 @@
 
 import ActionBean from "../Bean/ActionBean";
 import ActionExecutor from "../Action/ActionExecutor";
-import GameBean from "../Bean/GameBean";
-import VMUtil from "../Util/VMUtil";
+import SoundPlayer from "../Component/SoundPlayer";
 
 /**
  * 游戏状态
@@ -45,8 +44,10 @@ export default class GameLogic extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    soundPlayer: SoundPlayer = null;
 
+    onLoad () {
+        this.soundPlayer = this.node.getComponentInChildren(SoundPlayer);
     }
 
     start () {
@@ -58,7 +59,7 @@ export default class GameLogic extends cc.Component {
     updateAction (actionList: ActionBean<Object>[]): ActionBean<any>[] {
         const ret: ActionBean<any>[] = [];
         for (let i = 0; i < actionList.length; i ++) {
-            let ab = new ActionExecutor(actionList[i]).execute();
+            let ab = new ActionExecutor(actionList[i], this.soundPlayer).execute();
             if (ab) {
                 ret.push(ab);
             }

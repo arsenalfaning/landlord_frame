@@ -97,7 +97,7 @@ export default class GameFramePlayer extends cc.Component {
     }
 
     sendAction(action: ActionBean<any>, frame?: GameFrame<any>) {
-        if (frame && frame.st - frame.t > 1000) {//落后最新赛况太久，不允许操作
+        if (frame && frame.st - frame.t > 10000) {//落后最新赛况太久，不允许操作
             return;
         }
         this.socket.sendAction(action);

@@ -15,13 +15,16 @@ import { GamerState } from "../Logic/GamerLogic";
 import DeckUtil from "../Util/DeckUtil";
 import OrderUtil from "../Util/OrderUtil";
 import CardHand from "../Util/CardHand";
+import SoundPlayer from "../Component/SoundPlayer";
 
 export default class ActionExecutor {
 
     actionBean: ActionBean<any>;
+    soundPlayer: SoundPlayer;
 
-    constructor(actionBean: ActionBean<any>) {
+    constructor(actionBean: ActionBean<any>, soundPlayer: SoundPlayer) {
         this.actionBean = actionBean;
+        this.soundPlayer = soundPlayer;
     }
 
     execute(): ActionBean<any> {
@@ -88,7 +91,7 @@ export default class ActionExecutor {
             if (game.state == GameState.Approving) {
                 //1.接收数据
                 const value = this.actionBean.data as boolean;
-                game.approve(value);
+                game.approve(value, this.soundPlayer);
             } else {
                 console.warn("error game state:" + game.state + " for action approve");
             }
@@ -97,7 +100,7 @@ export default class ActionExecutor {
                 if (game.currentOrder == this.actionBean.order) {
                     //1.接收数据
                     const hand = this.actionBean.data as CardHand;
-                    return game.playCards(hand);
+                    return game.playCards(hand, this.soundPlayer);
                 } else {
                     console.warn("error play order:" + this.actionBean.order + " for action play while game's playing order is " + game.currentOrder);
                 }

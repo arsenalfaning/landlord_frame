@@ -9,7 +9,7 @@ import GameFramePlayer from "../Component/GameFramePlayer";
 import ActionBean from "../Bean/ActionBean";
 import VMUtil from "../Util/VMUtil";
 
-const host = "ws://192.168.0.100:8080/common?token=";
+const host = "ws://192.168.0.107:8080/common?token=";
 
 export default class WebSocketBean {
 

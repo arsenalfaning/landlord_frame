@@ -25,7 +25,10 @@ export default class GamerBean {
      * 手中剩余牌
      */
     cards: number[] = [];
-    
+    /**
+     * 是否抢地主
+     */
+    approve: number = -1;
     /**
      * 是否是地主
      */
