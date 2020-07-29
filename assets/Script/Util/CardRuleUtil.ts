@@ -52,6 +52,7 @@ export default class CardRuleUtil {
      */
     static _checkTriple(cards: number[]): CardHand {
         let arr = this._findNValueEqual(cards, 3);
+        console.log(arr);
         if (arr) {
             if (arr[1].length == 0) {
                 return new CardHand(arr[0], arr[1], CardUtil.Cards_Type_Triple); //三张
@@ -183,7 +184,7 @@ export default class CardRuleUtil {
      * @param n 
      */
     static _findNValueEqual(cards: number[], n: number): number[][] {
-        for (let i = 0; i < cards.length - n; i ++) {
+        for (let i = 0; i <= cards.length - n; i ++) {
             if ( DeckUtil.compareValue(cards[i], cards[i + n - 1]) == 0) {
                 return [cards.slice(i, i + n), cards.slice(0, i).concat(cards.slice(i + n))];
             }

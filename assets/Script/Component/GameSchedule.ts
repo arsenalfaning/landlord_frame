@@ -8,6 +8,7 @@
 import GameBean from "../Bean/GameBean";
 import VMUtil from "../Util/VMUtil";
 import GameFramePlayer from "./GameFramePlayer";
+import EventUtil from "../Util/EventUtil";
 
 const {ccclass} = cc._decorator;
 
@@ -51,6 +52,7 @@ export default class GameSchedule extends cc.Component {
                 this.unscheduleAllCallbacks();
             } else {
                 this.game.time = parseInt(((this.timeout - d) / 1000).toFixed(0));
+                this.node.emit(EventUtil.Game_Time, this.game);
             }
         }
     }
@@ -78,7 +80,7 @@ export default class GameSchedule extends cc.Component {
 
     changeOrder(newTurn: number, oldTurn: number) {
         const turn = newTurn;
-        this.addTask(this.player.time, this.player.serverTime, this.player.clientTime, 20000, () => {
+        this.addTask(this.player.time, this.player.serverTime, this.player.clientTime, 20000000, () => {
             const action = this.game.botAction(turn);
             if (action) {
                 this.player.sendAction(action);

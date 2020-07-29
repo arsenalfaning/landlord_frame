@@ -16,6 +16,7 @@ import DeckUtil from "../Util/DeckUtil";
 import OrderUtil from "../Util/OrderUtil";
 import CardHand from "../Util/CardHand";
 import SoundPlayer from "../Component/SoundPlayer";
+import EventUtil from "../Util/EventUtil";
 
 export default class ActionExecutor {
 
@@ -27,7 +28,7 @@ export default class ActionExecutor {
         this.soundPlayer = soundPlayer;
     }
 
-    execute(): ActionBean<any> {
+    execute(node: cc.Node): ActionBean<any> {
         const game = VMUtil.getGameBean();
         if (this.actionBean.action == GameAction.Room) {//初始化房间数据
             if (game.state == GameState.Matching) {
@@ -59,6 +60,10 @@ export default class ActionExecutor {
                 right.state = GamerState.WaitingForDeal;
                 game.random = new Random(bean.data.seed);
                 game.state = GameState.Dealing;
+                node.emit(EventUtil.Game_State, game);
+                node.emit(EventUtil.Gamer_State, myself);
+                node.emit(EventUtil.Gamer_State, left);
+                node.emit(EventUtil.Gamer_State, right);
                 //2.发送发牌action
                 return ActionFactory.build(GameAction.Deal);
             } else {
@@ -84,6 +89,13 @@ export default class ActionExecutor {
                 game.holeCards = hole;
                 game.state = GameState.Approving;
                 game.turn();
+                node.emit(EventUtil.Game_State, game);
+                node.emit(EventUtil.Game_HoleCards, game);
+                node.emit(EventUtil.Game_Turn, game);
+                gamers.forEach(g => {
+                    node.emit(EventUtil.Gamer_State, g);
+                    node.emit(EventUtil.Gamer_Cards, g);
+                });
             } else {
                 console.warn("error game state:" + game.state + " for action deal");
             }
@@ -92,6 +104,14 @@ export default class ActionExecutor {
                 //1.接收数据
                 const value = this.actionBean.data as boolean;
                 game.approve(value, this.soundPlayer);
+                VMUtil.getGamers().forEach(g => {
+                    node.emit(EventUtil.Gamer_State, g);
+                    node.emit(EventUtil.Gamer_Cards, g);
+                    node.emit(EventUtil.Gamer_Approve, g);
+                    node.emit(EventUtil.Gamer_Landlord, g);
+                });
+                node.emit(EventUtil.Game_State, game);
+                node.emit(EventUtil.Game_Turn, game);
             } else {
                 console.warn("error game state:" + game.state + " for action approve");
             }
@@ -100,7 +120,16 @@ export default class ActionExecutor {
                 if (game.currentOrder == this.actionBean.order) {
                     //1.接收数据
                     const hand = this.actionBean.data as CardHand;
-                    return game.playCards(hand, this.soundPlayer);
+                    let action = game.playCards(hand, this.soundPlayer);
+                    VMUtil.getGamers().forEach(g => {
+                        node.emit(EventUtil.Gamer_State, g);
+                        node.emit(EventUtil.Gamer_Hand, g);
+                        node.emit(EventUtil.Gamer_Cards, g);
+                    });
+                    node.emit(EventUtil.Game_State, game);
+                    node.emit(EventUtil.Game_Turn, game);
+                    node.emit(EventUtil.Game_Round, game);
+                    return action;
                 } else {
                     console.warn("error play order:" + this.actionBean.order + " for action play while game's playing order is " + game.currentOrder);
                 }

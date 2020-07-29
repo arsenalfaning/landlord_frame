@@ -9,7 +9,7 @@ import GameFramePlayer from "../Component/GameFramePlayer";
 import ActionBean from "../Bean/ActionBean";
 import VMUtil from "../Util/VMUtil";
 
-const host = "ws://192.168.0.107:8080/common?token=";
+const host = "ws://192.168.0.103:8080/common?token=";
 
 export default class WebSocketBean {
 
@@ -28,7 +28,7 @@ export default class WebSocketBean {
         try {
             var frame = JSON.parse(event.data);
             this.player.addFrame(frame);
-            console.log(frame);
+            //console.log(frame);
         } catch (e) {
             console.log(e);
         }

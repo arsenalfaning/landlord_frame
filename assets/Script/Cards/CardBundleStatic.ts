@@ -29,6 +29,7 @@ export default class CardBundleStatic extends cc.Component {
 
     setData(cards: number[]) {
         if (cards) {
+            if (this.testEqual(cards)) return;
             this.node.removeAllChildren();
             if (cards.length > 0) {
                 this._cardTemplates = [];
@@ -45,6 +46,23 @@ export default class CardBundleStatic extends cc.Component {
                 }
             }
         }
+    }
+
+    testEqual(cards: number[]) {
+        let equal = true;
+        if (cards.length == this._cardTemplates.length) {
+            for (let i = 0; i < cards.length; i ++) {
+                if (this._cardTemplates[i] && this._cardTemplates[i].value == cards[i]) {
+                    continue;
+                } else {
+                    equal = false;
+                    break;
+                }
+            }
+        } else {
+            equal = false;
+        }
+        return equal;
     }
 
     start () {

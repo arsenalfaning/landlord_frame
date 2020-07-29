@@ -15,6 +15,9 @@ import CardBundleClick from "../Cards/CardBundleClick";
 import CardRuleUtil from "../Util/CardRuleUtil";
 import CardUtil from "../Util/CardUtil";
 import ResultBean from "../Bean/ResultBean";
+import EventUtil from "../Util/EventUtil";
+import GamerBean from "../Bean/GamerBean";
+import CardBundleStatic from "../Cards/CardBundleStatic";
 
 export enum GamerState {
     WaitingForMatch = 0,//等待匹配
@@ -26,59 +29,139 @@ export enum GamerState {
     ViewingResult = 6,//查看游戏结果
 }
 
-
-// /**
-//  * 玩家操作变化类
-//  */
-// class GamerTransition {
-//     /**
-//      * 当前状态
-//      */
-//     currentState: GamerState;
-//     /**
-//      * 操作
-//      */
-//     action: GameAction;
-//     /**
-//      * 下一个状态
-//      */
-//     nextState: GamerState;
-
-//     constructor(currentState: GamerState, action: GameAction, nextState: GamerState) {
-//         this.currentState = currentState;
-//         this.action = action;
-//         this.nextState = nextState;
-//     }
-// }
-
-// const GamerTransitions: GamerTransition[] = [
-//     new GamerTransition(GamerState.WaitingForMatch, GameAction.Room, GamerState.WaitingForDeal),
-//     new GamerTransition(GamerState.WaitingForDeal, GameAction.Deal, GamerState.WaitingForApprove),
-//     new GamerTransition(GamerState.Approving, GameAction.Approve, GamerState.WaitingForApprove),
-//     new GamerTransition(GamerState.WaitingForApprove, GameAction.DealAdditional, GamerState.WaitingForPlay),
-//     new GamerTransition(GamerState.Playing, GameAction.Play, GamerState.WaitingForPlay),
-//     new GamerTransition(GamerState.WaitingForPlay, GameAction.Over, GamerState.ViewingResult),
-// ];
-
 const {ccclass, property} = cc._decorator;
 @ccclass
 export default class GamerLogic extends cc.Component {
 
     @property(cc.Node)
     gameNode: cc.Node = null;
+    @property(cc.Node)
+    playNode: cc.Node = null;
+    @property(cc.Node)
+    passButton: cc.Node = null;//不出按钮
+    @property(cc.Node)
+    approveNode: cc.Node = null;
+    @property(cc.Node)
+    approveStatusdNode: cc.Node = null;
+    @property(cc.Node)
+    clockNode: cc.Node = null;
+    @property(cc.Node)
+    playShowNode: cc.Node = null;
+    @property(cc.Node)
+    notPlayShowNode: cc.Node = null;
+    @property(cc.Node)
+    landlordNode: cc.Node = null;
+    @property(cc.Node)
+    cardsNode: cc.Node = null;
+    @property(cc.Node)
+    baseInfoNode: cc.Node = null;
+    @property(cc.Node)
+    qiangNode: cc.Node = null;
+    @property(cc.Node)
+    buQiangNode: cc.Node = null;
+    @property(cc.Node)
+    nameNode: cc.Node = null;
+    @property(cc.Node)
+    pointNode: cc.Node = null;
+
+    @property
+    gamerTag: string = "";
 
     private player: GameFramePlayer = null;
     private bundleClick: CardBundleClick = null;
+    private bundleStatic: CardBundleStatic = null;
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
         this.player = this.gameNode.getComponent(GameFramePlayer);
-        this.bundleClick = this.node.getComponentInChildren(CardBundleClick);
+        this.bundleClick = this.cardsNode.getComponent(CardBundleClick);
+        this.bundleStatic = this.cardsNode.getComponent(CardBundleStatic);
+        this.node.getParent().on(EventUtil.Gamer_State, (gamer: GamerBean) => {
+            if (VMUtil.getGamerByTag(this.gamerTag) != gamer) return;
+            this.hideAll();
+            if (gamer.state == GamerState.WaitingForDeal) {
+                this.nameNode.getComponent(cc.Label).string = gamer.gamerId;
+                this.pointNode.getComponent(cc.Label).string = gamer.point + '';
+            }
+            if (gamer.state == GamerState.Playing) {
+                this.setNodeActive(this.playNode, true);
+                this.setNodeActive(this.playShowNode, false);
+            }
+            if (gamer.state == GamerState.Approving) {
+                this.setNodeActive(this.approveNode, true);
+            }
+            if (gamer.state == GamerState.Playing || gamer.state == GamerState.Approving) {
+                this.setNodeActive(this.clockNode, true);
+            }
+            if (gamer.state == GamerState.WaitingForPlay || gamer.state == GamerState.ViewingResult) {
+                this.setNodeActive(this.playShowNode, true);
+            }
+            if (gamer.state == GamerState.WaitingForApprove) {
+                this.setNodeActive(this.approveStatusdNode, true);
+            }
+        }, this);
+
+        this.node.getParent().on(EventUtil.Gamer_Landlord, (gamer: GamerBean) => {
+            if (VMUtil.getGamerByTag(this.gamerTag) != gamer) return;
+            this.setNodeActive(this.landlordNode, gamer.landlord == 1);
+        }, this);
+
+        this.node.getParent().on(EventUtil.Gamer_Hand, (gamer: GamerBean) => {
+            if (VMUtil.getGamerByTag(this.gamerTag) != gamer) return;
+            if (gamer.state != GamerState.Playing) {
+                this.setNodeActive(this.notPlayShowNode, gamer.notPlay == 1);
+                this.setNodeActive(this.playShowNode, !!gamer.hand);
+                this.playShowNode.getComponent(CardBundleStatic).setData(gamer.hand);
+            }
+        }, this);
+
+        this.node.getParent().on(EventUtil.Game_Round, () => {
+            let game = VMUtil.getGameBean();
+            this.setNodeActive(this.passButton, game.playRoundCount > 0);
+        }, this);
+
+        this.node.getParent().on(EventUtil.Gamer_Cards, (gamer: GamerBean)=> {
+            if (VMUtil.getGamerByTag(this.gamerTag) != gamer) return;
+            let bundle = this.bundleClick ? this.bundleClick : this.bundleStatic;
+            bundle.setData(gamer.cards);
+        }, this);
+
+        this.node.getParent().on(EventUtil.Gamer_Approve, (gamer: GamerBean) => {
+            if (VMUtil.getGamerByTag(this.gamerTag) != gamer) return;
+            this.setNodeActive(this.qiangNode, false);
+            this.setNodeActive(this.buQiangNode, false);
+            this.setNodeActive(this.qiangNode, gamer.approve == 1);
+            this.setNodeActive(this.buQiangNode, gamer.approve == 0); 
+        }, this);
+
+        this.node.getParent().on(EventUtil.Game_Time, () => {
+            let game = VMUtil.getGameBean();
+            this.clockNode.getChildByName("Time").getComponent(cc.Label).string = game.time + '';
+        }, this);
+
+    }
+
+    hideAll() {
+        this.setNodeActive(this.playNode, false);
+		this.setNodeActive(this.approveNode, false);
+		this.setNodeActive(this.approveStatusdNode, false);
+		this.setNodeActive(this.clockNode, false);
+		this.setNodeActive(this.playShowNode, false);
+		this.setNodeActive(this.notPlayShowNode, false);
+    }
+
+    setNodeActive(node: cc.Node, value: boolean) {
+        if (node) {
+            node.active = value;
+        }
     }
 
     start () {
-        
+        this.hideAll();
+        this.setNodeActive(this.qiangNode, false);
+        this.setNodeActive(this.buQiangNode, false);
+        this.setNodeActive(this.landlordNode, false);
     }
 
     onApprove(event:any, value: string) {
@@ -110,8 +193,6 @@ export default class GamerLogic extends cc.Component {
             } else {
                 //TODO 提示出牌无效
                 console.log("出牌无效");
-                console.log(cards);
-                console.log(hand);
             }
         }
         

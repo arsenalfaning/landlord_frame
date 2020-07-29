@@ -6,7 +6,6 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import GameBean from "../Bean/GameBean";
-import { VM } from "../ViewModel/ViewModel";
 import GamerBean from "../Bean/GamerBean";
 
 const GAME:string = "game";
@@ -15,40 +14,36 @@ const LEFF:string = "left";
 const RIGHT:string = "right";
 const LANDLORD:string = "landlord";
 
+var game:GameBean;
+var myself:GamerBean;
+var left:GamerBean;
+var right:GamerBean;
+var landlord:GamerBean;
+
 export default class VMUtil{
 
     static init() {
-        VM.remove(GAME);
-        VM.remove(MYSELF);
-        VM.remove(LEFF);
-        VM.remove(RIGHT);
-        VM.remove(LANDLORD);
-        VM.add(new GameBean(), GAME);
-        VM.add(new GamerBean(), MYSELF);
-        VM.add(new GamerBean(), LEFF);
-        VM.add(new GamerBean(), RIGHT);
+        game = new GameBean();
+        myself = new GamerBean();
+        left = new GamerBean();
+        right = new GamerBean();
+        landlord = null;
     }
 
     static getGameBean(): GameBean {
-        return VM.get<GameBean>(GAME).$data;
+        return game;
     }
 
     static getMyself(): GamerBean {
-        return VM.get<GamerBean>(MYSELF).$data;
+        return myself;
     }
 
     static getLeft(): GamerBean {
-        return VM.get<GamerBean>(LEFF).$data;
+        return left;
     }
 
     static getRight(): GamerBean {
-        return VM.get<GamerBean>(RIGHT).$data;
-    }
-
-    static updateGamers() {
-        VM.setValue(MYSELF + ".state", this.getMyself().state);
-        VM.setValue(LEFF + ".state", this.getLeft().state);
-        VM.setValue(RIGHT + ".state", this.getRight().state);
+        return right;
     }
 
     static getGamers(): GamerBean[] {
@@ -60,12 +55,22 @@ export default class VMUtil{
     }
 
     static getGamerByTag(tag: string): GamerBean {
-        const data = VM.get<GamerBean>(tag);
-        if (data) return data.$data;
+        if (tag == MYSELF) {
+            return myself;
+        }
+        if (tag == LEFF) {
+            return left;
+        }
+        if (tag == RIGHT) {
+            return right;
+        }
+        if (tag == LANDLORD) {
+            return landlord;
+        }
         return null;
     }
 
     static setLandlord(gamer: GamerBean) {
-        VM.add(gamer, LANDLORD);
+        landlord = gamer;
     }
 }

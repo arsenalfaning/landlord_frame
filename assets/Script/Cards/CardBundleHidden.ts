@@ -18,6 +18,7 @@ export default class CardBundleHidden extends CardBundleStatic {
 
     setData(cards: number[]) {
         if (cards) {
+            if (this.testEqual(cards)) return;
             this.node.removeAllChildren();
             this.cards = cards;
             if (cards.length > 0) {

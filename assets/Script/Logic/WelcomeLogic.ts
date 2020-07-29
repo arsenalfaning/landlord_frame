@@ -28,5 +28,9 @@ export default class NewClass extends cc.Component {
         }
     }
 
+    setGamerId(value:cc.EditBox) {
+        VMUtil.getMyself().gamerId = value.string;
+    }
+
     // update (dt) {}
 }

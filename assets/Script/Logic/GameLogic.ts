@@ -8,6 +8,12 @@
 import ActionBean from "../Bean/ActionBean";
 import ActionExecutor from "../Action/ActionExecutor";
 import SoundPlayer from "../Component/SoundPlayer";
+import EventUtil from "../Util/EventUtil";
+import VMUtil from "../Util/VMUtil";
+import GameSchedule from "../Component/GameSchedule";
+import CardBundleStatic from "../Cards/CardBundleStatic";
+import CardBundleHidden from "../Cards/CardBundleHidden";
+import Result from "../Component/Result";
 
 /**
  * 游戏状态
@@ -34,7 +40,7 @@ export enum GameAction {
     Reset = 7,//重新开始
 }
 
-const {ccclass} = cc._decorator;
+const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class GameLogic extends cc.Component {
@@ -44,14 +50,59 @@ export default class GameLogic extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
 
+    @property(cc.Node)
+    myselfNode: cc.Node = null;
+    @property(cc.Node)
+    leftNode: cc.Node = null;
+    @property(cc.Node)
+    rightNode: cc.Node = null;
+    @property(cc.Node)
+    holeCardsNode: cc.Node = null;
+    @property(cc.Node)
+    resultNode: cc.Node = null;
+
     soundPlayer: SoundPlayer = null;
+    gameSchedule: GameSchedule = null;
 
     onLoad () {
         this.soundPlayer = this.node.getComponentInChildren(SoundPlayer);
+        this.gameSchedule = this.node.getComponent(GameSchedule);
+        this.node.on(EventUtil.Game_State, () => {
+            this.hideAll();
+            let game = VMUtil.getGameBean();
+            if (game.state >= GameState.Matching) {
+                this.myselfNode.active = true;
+                this.leftNode.active = true;
+                this.rightNode.active = true;
+                this.holeCardsNode.active = true;
+            }
+            if (game.state >= GameState.Playing) {
+                this.holeCardsNode.getComponentInChildren(CardBundleHidden).setShow();
+            }
+            if (game.state == GameState.GameOver) {
+                this.resultNode.active = true;
+                this.resultNode.getComponent(Result).setData();
+            }
+        }, this);
+        this.node.on(EventUtil.Game_Turn, () => {
+            let game = VMUtil.getGameBean();
+            this.gameSchedule.changeOrder(game.turnTotal, 0);
+        });
+        this.node.on(EventUtil.Game_HoleCards, () => {
+            let game = VMUtil.getGameBean();
+            this.holeCardsNode.getComponentInChildren(CardBundleHidden).setData(game.holeCards);
+        }, this);
     }
 
+    hideAll() {
+        this.myselfNode.active = false;
+        this.leftNode.active = false;
+        this.rightNode.active = false;
+        this.holeCardsNode.active = false;
+        this.resultNode.active = false;
+    }
     start () {
-        
+        this.hideAll();
     }
 
 
@@ -59,7 +110,7 @@ export default class GameLogic extends cc.Component {
     updateAction (actionList: ActionBean<Object>[]): ActionBean<any>[] {
         const ret: ActionBean<any>[] = [];
         for (let i = 0; i < actionList.length; i ++) {
-            let ab = new ActionExecutor(actionList[i], this.soundPlayer).execute();
+            let ab = new ActionExecutor(actionList[i], this.soundPlayer).execute(this.node);
             if (ab) {
                 ret.push(ab);
             }

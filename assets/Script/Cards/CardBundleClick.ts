@@ -28,6 +28,7 @@ export default class CardBundleClick extends CardBundleStatic {
 
     setData(cards: number[]) {
         if (cards) {
+            if (this.testEqual(cards)) return;
             this.node.removeAllChildren();
             if (cards.length > 0) {
                 this._cardTemplates = [];
@@ -60,7 +61,7 @@ export default class CardBundleClick extends CardBundleStatic {
     }
 
     getSelcted(): number[] {
-        const cards = this._cardTemplates.filter(ct => (ct as CardClickTemplate).selected).map(ct => ct._value);
+        const cards = this._cardTemplates.filter(ct => (ct as CardClickTemplate).selected).map(ct => ct.value);
         return cards;
     }
 }

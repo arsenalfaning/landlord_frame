@@ -180,7 +180,7 @@
       "array": [
         0,
         0,
-        362.9725605558851,
+        368.91820544775544,
         0,
         0,
         0,
@@ -385,9 +385,6 @@
     "_components": [
       {
         "__id__": 18
-      },
-      {
-        "__id__": 19
       }
     ],
     "_prefab": null,
@@ -825,7 +822,11 @@
     "_tabIndex": 0,
     "editingDidBegan": [],
     "textChanged": [],
-    "editingDidEnded": [],
+    "editingDidEnded": [
+      {
+        "__id__": 19
+      }
+    ],
     "editingReturn": [],
     "_N$textLabel": {
       "__id__": 13
@@ -842,19 +843,14 @@
     "_id": "1ff8htui1ACL5SWPpDozko"
   },
   {
-    "__type__": "a862bYtYW5GUpj+H0gn50xU",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 8
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
     },
-    "_enabled": true,
-    "controller": true,
-    "watchPath": "myself.gamerId",
-    "componentName": "cc.EditBox",
-    "componentProperty": "string",
-    "refreshRate": 0.1,
-    "_id": "ed6xgD4cxGPbsSu1ZLmRve"
+    "component": "",
+    "_componentId": "2722c4uC7pLuqzYcWgegIXY",
+    "handler": "setGamerId",
+    "customEventData": ""
   },
   {
     "__type__": "cc.Node",
