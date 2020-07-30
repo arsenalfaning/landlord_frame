@@ -80,7 +80,7 @@ export default class GameSchedule extends cc.Component {
 
     changeOrder(newTurn: number, oldTurn: number) {
         const turn = newTurn;
-        this.addTask(this.player.time, this.player.serverTime, this.player.clientTime, 20000000, () => {
+        this.addTask(this.player.time, this.player.serverTime, this.player.clientTime, 20000, () => {
             const action = this.game.botAction(turn);
             if (action) {
                 this.player.sendAction(action);

@@ -62,15 +62,18 @@ export default class CardSuggestUtil {
     static _suggestMin(cs: CardSorted): CardHand {
         let hand: CardHand = null;
         if (cs.singleArray.length > 0) {
-            hand = new CardHand([cs.singleArray.pop()], [], CardUtil.Cards_Type_Single); 
+            hand = new CardHand([cs.singleArray.pop()], [], CardUtil.Cards_Type_Single);
+            return hand;
         } 
         if (cs.doubleArray.length > 0) {
             const cards = cs.doubleArray.pop();
             hand = new CardHand(cards, [], CardUtil.Cards_Type_Double); 
+            return hand;
         }
         if (cs.tripleArray.length > 0) {
             const cards = cs.tripleArray.pop();
             hand = new CardHand(cards, [], CardUtil.Cards_Type_Triple);
+            return hand;
         }
         if (!hand && cs.quadrupleArray.length > 0) {
             hand = new CardHand(cs.quadrupleArray.pop(), [], CardUtil.Cards_Type_Bomb);
