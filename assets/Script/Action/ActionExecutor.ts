@@ -112,6 +112,7 @@ export default class ActionExecutor {
                 });
                 node.emit(EventUtil.Game_State, game);
                 node.emit(EventUtil.Game_Turn, game);
+                node.emit(EventUtil.Game_Round, game);
             } else {
                 console.warn("error game state:" + game.state + " for action approve");
             }

@@ -19,7 +19,7 @@ export default class CardClickTemplate extends CardTemplate {
     // onLoad () {}
 
     start () {
-        this.node.on(cc.Node.EventType.TOUCH_START, this.onTouch, this);
+        this.node.on(cc.Node.EventType.TOUCH_START, () => {}, this);
     }
 
     onTouch () {
