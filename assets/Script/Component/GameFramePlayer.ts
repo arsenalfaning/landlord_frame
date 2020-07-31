@@ -69,30 +69,26 @@ export default class GameFramePlayer extends cc.Component {
 
     update (delta: number) {
         this.delta += delta;
-        if (this.delta > 1) {
-            this.delta -= 1;
-            
+        if (this.delta >= 1 / this.speed) {
+            this.delta -= 1 / this.speed;
+            this.updateFrame();
         }
-        this.updateFrame();
     }
 
     updateFrame() {
-        let i = this.speed;
-        while(i -- > 0) {
-            const frame = this.frameQueue[this.version + 1];
-            if (frame) {
-                this.time = frame.t;
-                this.serverTime = frame.st;
-                this.clientTime = new Date().getTime();
-                this.version ++;
-                if (frame.a && frame.a.length > 0) {
-                    this.gameLogic.updateAction(frame.a).forEach( a => {
-                        this.sendAction(a, frame);
-                    });
-                }
-            } else {//处理可能的丢帧问题
-                //TODO 
+        const frame = this.frameQueue[this.version + 1];
+        if (frame) {
+            this.time = frame.t;
+            this.serverTime = frame.st;
+            this.clientTime = new Date().getTime();
+            this.version ++;
+            if (frame.a && frame.a.length > 0) {
+                this.gameLogic.updateAction(frame.a).forEach( a => {
+                    this.sendAction(a, frame);
+                });
             }
+        } else {//处理可能的丢帧问题
+            //TODO 
         }
     }
 

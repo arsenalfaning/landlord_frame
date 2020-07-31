@@ -1,7 +1,7 @@
 {
   "engine": "cocos2d-html5",
   "packages": "packages",
-  "version": "2.4.0",
+  "version": "2.4.2",
   "name": "landlord_new",
   "id": "da5a4d4d-f4aa-4e8b-b93f-0dc1d5d91658",
   "isNew": false
