@@ -6,7 +6,6 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import PlayBean from "./PlayBean";
-import Random from "../Util/Random";
 import { GameState, GameAction } from "../Logic/GameLogic";
 import OrderUtil from "../Util/OrderUtil";
 import VMUtil from "../Util/VMUtil";
@@ -23,6 +22,10 @@ import SoundPlayer from "../Component/SoundPlayer";
 
 export default class GameBean {
 
+    /**
+     * 洗牌需要的随机数组，从服务器获取
+     */
+    shuffleIndex: number[] = [];
     /**
      * 地主底牌
      */
@@ -43,10 +46,6 @@ export default class GameBean {
      * 所有出牌轮次历史
      */
     playRoundHistory: PlayBean[][] = [];
-    /**
-     * 随机数生成工具类
-     */
-    random: Random;
     /**
      * 游戏状态
      */

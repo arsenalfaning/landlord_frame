@@ -9,7 +9,6 @@ import ActionBean from "../Bean/ActionBean";
 import { GameAction, GameState } from "../Logic/GameLogic";
 import RoomActionBean from "./RoomActionBean";
 import VMUtil from "../Util/VMUtil";
-import Random from "../Util/Random";
 import ActionFactory from "./ActionFactory";
 import { GamerState } from "../Logic/GamerLogic";
 import DeckUtil from "../Util/DeckUtil";
@@ -58,8 +57,8 @@ export default class ActionExecutor {
                 myself.state = GamerState.WaitingForDeal;
                 left.state = GamerState.WaitingForDeal;
                 right.state = GamerState.WaitingForDeal;
-                game.random = new Random(bean.data.seed);
                 game.state = GameState.Dealing;
+                game.shuffleIndex = bean.data.cards;
                 node.emit(EventUtil.Game_State, game);
                 node.emit(EventUtil.Gamer_State, myself);
                 node.emit(EventUtil.Gamer_State, left);
@@ -73,11 +72,8 @@ export default class ActionExecutor {
             if (game.state == GameState.Dealing) {
                 //1.接收数据
                 const gamers = VMUtil.getGamers();
-                // const myself = VMUtil.getMyself();
-                // const left = VMUtil.getLeft();
-                // const right = VMUtil.getRight();
                 const deck = DeckUtil.getdeck();
-                DeckUtil.shuffle(deck, game.random);
+                DeckUtil.shuffle(deck, game.shuffleIndex);
                 gamers.forEach(g => {
                     let cards = deck.slice(g.order * 17, (g.order + 1) * 17 );
                     DeckUtil.sort(cards);

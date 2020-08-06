@@ -47,7 +47,7 @@ export default class GameSchedule extends cc.Component {
             const d = this.deltaTime + new Date().getTime() - this.actionTime;
             if (d >= this.timeout) {//满足执行条件
                 this.game.time = 0;
-                this.task();
+                //this.task();
                 this.executed = true;
                 this.unscheduleAllCallbacks();
             } else {

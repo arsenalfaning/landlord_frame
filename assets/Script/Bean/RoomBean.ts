@@ -20,4 +20,8 @@ export default class RoomBean {
      * 随机数种子
      */
     seed: number;
+    /**
+     * 洗牌随机数组
+     */
+    cards: number[];
 }

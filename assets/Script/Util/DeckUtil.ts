@@ -5,8 +5,6 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import Random from "./Random";
-
 const Value_Array = [0, 14, 20, 3, 4, 5, 6, 7, 8, 9, 10 ,11, 12, 13, 30, 40];
 const Style_Array = [0, 2, 4, 3, 5, 1];
 
@@ -36,11 +34,11 @@ export default class DeckUtil {
     /**
      * 洗牌
      * @param deck 一副牌
-     * @param random 随机工具
+     * @param shuffleIndex 随机数组
      */
-    static shuffle(deck: number[], random: Random ) {
-        for (let i = deck.length - 1; i >= 1; i --) {
-            let j = random.nextInt(i + 1);
+    static shuffle(deck: number[], shuffleIndex: number[] ) {
+        for (let i = 0; i < deck.length; i ++) {
+            let j = shuffleIndex[i];
             let v = deck[i];
             deck[i] = deck[j];
             deck[j] = v;
