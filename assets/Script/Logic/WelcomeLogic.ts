@@ -32,5 +32,12 @@ export default class NewClass extends cc.Component {
         VMUtil.getMyself().gamerId = value.string;
     }
 
+    setInvitor(value:cc.EditBox) {
+        VMUtil.setTeamInvitor(value.string);
+    }
+
+    toTeamScene() {
+        cc.director.loadScene("Team");
+    }
     // update (dt) {}
 }

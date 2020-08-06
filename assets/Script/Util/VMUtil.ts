@@ -19,6 +19,7 @@ var myself:GamerBean;
 var left:GamerBean;
 var right:GamerBean;
 var landlord:GamerBean;
+var teamInvitor:string;
 
 export default class VMUtil{
 
@@ -28,6 +29,7 @@ export default class VMUtil{
         left = new GamerBean();
         right = new GamerBean();
         landlord = null;
+        teamInvitor = null;
     }
 
     static getGameBean(): GameBean {
@@ -50,10 +52,6 @@ export default class VMUtil{
         return [this.getMyself(), this.getLeft(), this.getRight()];
     }
 
-    static getCardsByPath(path: string): number[] {
-        return VM.getValue(path);
-    }
-
     static getGamerByTag(tag: string): GamerBean {
         if (tag == MYSELF) {
             return myself;
@@ -72,5 +70,13 @@ export default class VMUtil{
 
     static setLandlord(gamer: GamerBean) {
         landlord = gamer;
+    }
+
+    static setTeamInvitor(gamerId: string) {
+        teamInvitor = gamerId;
+    }
+
+    static getTeamInvitor() {
+        return teamInvitor;
     }
 }

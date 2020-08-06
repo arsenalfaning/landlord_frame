@@ -38,6 +38,9 @@ export enum GameAction {
     Suggest = 5,//建议出牌
     Over = 6,//结束
     Reset = 7,//重新开始
+
+    TeamCreate = "create",//队伍创建
+    TeamJoin = "join",//队伍加入
 }
 
 const {ccclass, property} = cc._decorator;
