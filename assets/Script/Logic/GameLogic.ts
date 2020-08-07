@@ -41,6 +41,20 @@ export enum GameAction {
 
     TeamCreate = "create",//队伍创建
     TeamJoin = "join",//队伍加入
+    TeamInfo = "team",//队伍信息
+    
+    Start = "start",//开始游戏
+
+    TexasDeal = "deal",//发手牌
+    TexasFlop = "flop",//翻牌
+    TexasTurn = "turn",//转牌
+    TexasRiver = "river",//河牌
+    TexasBet = "bet",//下注
+    TexasRaise = "raise",//加注
+    TexasCall = "call",//跟注
+    TexasFold = "fold",//弃牌
+    TexasCheck = "check",//过牌
+    TexasAllIn = "allIn",//全下
 }
 
 const {ccclass, property} = cc._decorator;

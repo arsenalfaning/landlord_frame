@@ -6,9 +6,9 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 
-export default class TeamBean {
+export default class StartGameBean {
 
-    leaderId: string;
-    gamerIdSet: string[];
+    gameId: string;
+    uri: string;
+    roomId: string;
 }
-

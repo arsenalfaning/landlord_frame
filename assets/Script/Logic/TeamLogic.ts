@@ -11,10 +11,12 @@ import ActionBean from "../Bean/ActionBean";
 import TeamJoinBean from "../Bean/TeamJoinBean";
 import ActionFactory from "../Action/ActionFactory";
 import { GameAction } from "./GameLogic";
+import StartGameBean from "../Bean/StartGameBean";
 
 const {ccclass, property} = cc._decorator;
 
-const host = "ws://192.168.0.103:8080/team?token=";
+const host = "ws://192.168.0.100:8080/team?token=";
+const texasGamerId = "2";
 
 @ccclass
 export default class TeamLogic extends cc.Component {
@@ -80,11 +82,16 @@ export default class TeamLogic extends cc.Component {
 
     _onMessage(event: MessageEvent) {
         try {
-            let team = JSON.parse(event.data) as TeamBean;
-            if (team) {
-                this._build(team);
+            let aciton = JSON.parse(event.data) as ActionBean<any>;
+            if (aciton) {
+                if (aciton.action == GameAction.TeamInfo) {
+                    let team = aciton as ActionBean<TeamBean>;
+                    this._build(team.data);
+                } else if (aciton.action == GameAction.Start) {
+                    let start = aciton as ActionBean<StartGameBean>;
+                    this._startGame(start.data);
+                }
             }
-            console.log(team);
         } catch(e) {
             console.error(e);
         }
@@ -94,7 +101,18 @@ export default class TeamLogic extends cc.Component {
         console.error(event);
     }
 
-    _send(action: ActionBean<TeamJoinBean>) {
+    _send(action: ActionBean<any>) {
         this._socket.send(JSON.stringify(action));
+    }
+
+    _startGame(start: StartGameBean) {
+        this._socket.close();
+        VMUtil.setStartGameBean(start);
+    }
+
+    sendStartAction() {
+        let bean = new StartGameBean();
+        bean.gameId = texasGamerId;
+        this._send(ActionFactory.build(GameAction.Start, bean));  
     }
 }

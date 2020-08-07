@@ -7,6 +7,7 @@
 
 import GameBean from "../Bean/GameBean";
 import GamerBean from "../Bean/GamerBean";
+import StartGameBean from "../Bean/StartGameBean";
 
 const GAME:string = "game";
 const MYSELF:string = "myself";
@@ -20,6 +21,7 @@ var left:GamerBean;
 var right:GamerBean;
 var landlord:GamerBean;
 var teamInvitor:string;
+var startGameBean:StartGameBean;
 
 export default class VMUtil{
 
@@ -78,5 +80,13 @@ export default class VMUtil{
 
     static getTeamInvitor() {
         return teamInvitor;
+    }
+
+    static setStartGameBean(bean: StartGameBean) {
+        startGameBean = bean;
+    }
+
+    static getStartGameBean() {
+        return startGameBean;
     }
 }
