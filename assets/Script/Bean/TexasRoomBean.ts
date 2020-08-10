@@ -5,17 +5,15 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import GamerBean from "./GamerBean";
+import TexasGamer from "./TexasGamer";
 
-/**
- * 房间信息
- */
-export default class RoomBean {
+
+export default class TexasRoomBean {
 
     /**
      * 玩家
      */
-    gamers: GamerBean[];
+    gamers: TexasGamer[];
     /**
      * 随机数种子
      */

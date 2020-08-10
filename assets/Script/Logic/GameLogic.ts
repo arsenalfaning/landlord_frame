@@ -45,6 +45,7 @@ export enum GameAction {
     
     Start = "start",//开始游戏
 
+    TexasRoom = "room",//获取房间相关信息
     TexasDeal = "deal",//发手牌
     TexasFlop = "flop",//翻牌
     TexasTurn = "turn",//转牌

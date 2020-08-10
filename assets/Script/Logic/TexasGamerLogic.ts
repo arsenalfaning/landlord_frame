@@ -6,6 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import TexasGamer from "../Bean/TexasGamer";
+import TexasGamerCardsLogic from "./TexasGamerCardsLogic";
 
 export enum GamerState {
     betting = 10,//下注中
@@ -55,14 +56,28 @@ export default class TexasGamerLogic extends cc.Component {
     @property({type: cc.Sprite, tooltip: "用户头像节点"})
     avatarNode: cc.Sprite = null;
 
+    @property({type: cc.Node, tooltip: "倒计时节点"})
+    timeNode: cc.Node = null;
+
     _gamer: TexasGamer = null;
+
+    _delta: number = 0;
+    _betting: boolean = true;
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
+        this.setCards([94, 95]);
+    }
 
+    /**
+     * 设置手牌
+     */
+    setCards(cards: number[]) {
+        let logic = this.node.getComponentInChildren(TexasGamerCardsLogic);
+        logic.setData(cards);
     }
 
     gamerInit(gamer: TexasGamer) {
@@ -85,5 +100,16 @@ export default class TexasGamerLogic extends cc.Component {
         }
     }
 
-    // update (dt) {}
+    update (dt: number) {
+        if (this._betting) {
+            this._delta += dt;
+            if (this._delta >= 0.1) {
+                this._delta -= 0.1;
+                this.timeNode.height --;
+                if (this.timeNode.height <= 0) {
+                    this.timeNode.height = 150;
+                }
+            }
+        }
+    }
 }

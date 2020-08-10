@@ -34,5 +34,6 @@
   "preview-port": 7456,
   "migrate-history": [
     "cloud-function"
-  ]
+  ],
+  "start-scene": "32ce53eb-c6dd-4810-87a9-0c560228ccf6"
 }

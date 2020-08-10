@@ -57,6 +57,7 @@ export default class BetUtil {
                 });
             });
         }
+        BetUtil.sidePotList = [];
         return map;
     }
 }

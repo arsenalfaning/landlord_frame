@@ -108,6 +108,7 @@ export default class TeamLogic extends cc.Component {
     _startGame(start: StartGameBean) {
         this._socket.close();
         VMUtil.setStartGameBean(start);
+        cc.director.loadScene("Texas");
     }
 
     sendStartAction() {
