@@ -36,7 +36,7 @@ StateMap.set(GamerState.check, "过牌");
 StateMap.set(GamerState.allIn, "全下注");
 
 const {ccclass, property} = cc._decorator;
-const GamerEventKey = "gamer.update.";
+//export const GamerEventKey = "gamer.update.";
 
 @ccclass
 export default class TexasGamerLogic extends cc.Component {
@@ -62,46 +62,58 @@ export default class TexasGamerLogic extends cc.Component {
     _gamer: TexasGamer = null;
 
     _delta: number = 0;
-    _betting: boolean = true;
 
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
 
     start () {
-        this.setCards([94, 95]);
+
     }
 
     /**
      * 设置手牌
      */
-    setCards(cards: number[]) {
-        let logic = this.node.getComponentInChildren(TexasGamerCardsLogic);
-        logic.setData(cards);
+    _setCards(cards: number[]) {
+        if (cards) {
+            let logic = this.node.getComponentInChildren(TexasGamerCardsLogic);
+            logic.setData(cards);
+        }
     }
 
     gamerInit(gamer: TexasGamer) {
         if (!this._gamer) {
             this._gamer = gamer;
-            cc.director.on(GamerEventKey + this._gamer.gamerId, this._updateUI, this);
+            gamer.logic = this;
+            //cc.director.on(GamerEventKey + this._gamer.gamerId, this.updateUI, this);
         }
-        this._updateUI();
+        this.updateUI();
     }
 
-    _updateUI() {
+    updateUI() {
         this.nameNode.string = this._gamer.gamerId;
         this.pointNode.string = this._gamer.point.toString();
         this.statusNode.string = StateMap.get(this._gamer.state);
-    }
-
-    onDestroy() {
-        if (this._gamer) {
-            cc.director.off(GamerEventKey + this._gamer.gamerId);
+        this._setCards(this._gamer.cards);
+        if(this._gamer.state == GamerState.betting) {
+            this.timeNode.active = true;
+            this.timeNode.height = 150;
+        } else {
+            this.timeNode.active = false;
+        }
+        if (this._gamer.betPoint > 0) {
+            this.betNode.string = "$" + this._gamer.betPoint.toString();
         }
     }
 
+    // onDestroy() {
+    //     if (this._gamer) {
+    //         cc.director.off(GamerEventKey + this._gamer.gamerId);
+    //     }
+    // }
+
     update (dt: number) {
-        if (this._betting) {
+        if (this._gamer.state == GamerState.betting) {
             this._delta += dt;
             if (this._delta >= 0.1) {
                 this._delta -= 0.1;
@@ -112,4 +124,5 @@ export default class TexasGamerLogic extends cc.Component {
             }
         }
     }
+
 }

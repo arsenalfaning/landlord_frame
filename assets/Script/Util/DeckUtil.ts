@@ -30,6 +30,19 @@ export default class DeckUtil {
         }
         return deck;
     }
+
+    /**
+     * 获取一副牌
+     */
+    static getdeckWithoutJoker() : number[] {
+        const deck = [];
+        for (let i = 1; i <= 4; i ++) {
+            for (let j = 1; j <= 13; j ++) {
+                deck.push((i << 4 | j));
+            }
+        }
+        return deck;
+    }
     
     /**
      * 洗牌

@@ -5,7 +5,7 @@
 // Learn life-cycle callbacks:
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
-import { GamerState } from "../Logic/TexasGamerLogic";
+import TexasGamerLogic, { GamerState } from "../Logic/TexasGamerLogic";
 
 
 export default class TexasGamer {
@@ -15,9 +15,13 @@ export default class TexasGamer {
      */
     gamerId: string = "";
      /**
-     * 积分
+     * 积分（可用）
      */
     point: number = -1;
+    /**
+     * 当前游戏投注的积分
+     */
+    betPoint: number = 0;
     /**
      * 手中剩余牌
      */
@@ -26,5 +30,9 @@ export default class TexasGamer {
      * 当前状态
      */
     state: GamerState = GamerState.waiting;
+    /**
+     * ui控制
+     */
+    logic: TexasGamerLogic = null;
     
 }

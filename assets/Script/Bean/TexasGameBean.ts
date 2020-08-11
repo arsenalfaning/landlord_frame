@@ -20,6 +20,10 @@ export default class TexasGameBean {
      */
     deck: number[] = [];
     /**
+     * 最小投注量
+     */
+    miniBet: number = 5;
+    /**
      * 所有参与的玩家
      */
     gamers: TexasGamer[] = [];
@@ -31,7 +35,27 @@ export default class TexasGameBean {
      * 主池投注量
      */
     pot: number = 0;
-
+    /**
+     * 单个玩家当前轮已投最大值
+     */
+    maxBetted: number = 0;
+    /**
+     * 庄家index
+     */
+    buttonIndex: number = 0;
+    /**
+     * 玩家自己的index
+     */
+    myselfIndex: number = -1;
+    /**
+     * 小盲位
+     */
+    smallBlindIndex: number = 1;
+    /**
+     * 大盲位
+     */
+    bigBlindIndex: number = 2;
+    
     constructor() {
         
     }

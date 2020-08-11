@@ -29,7 +29,7 @@ export default class TexasGamerCardsLogic extends cc.Component {
                 for (var i = 0; i < cards.length; i ++) {
                     var value = cards[i];
                     var node = cc.instantiate(this.prefab);
-                    node.setRotation(i == 0 ? -10 : 15);
+                    node.angle = i == 0 ? -10 : -10;
                     var ct = node.getComponent(CardTemplate);
                     ct.setValue(value, false);
                     this.node.addChild(node);
