@@ -9,6 +9,7 @@ import TexasGameBean from "../Bean/TexasGameBean";
 import { GameState } from "../Logic/TexasGameLogic";
 import { GamerState } from "../Logic/TexasGamerLogic";
 import TexasGamer from "../Bean/TexasGamer";
+import { GameAction } from "../Logic/GameLogic";
 
 export default class TexasUtil extends cc.Component {
 
@@ -19,8 +20,9 @@ export default class TexasUtil extends cc.Component {
     static setGamerStatus(game: TexasGameBean): boolean {
         if (game.state == GameState.PreFlop) {
             let index = game.bigBlindIndex + 1;
-            index = TexasUtil._getValidIndex(game, index);
+            index = TexasUtil.getValidIndex(game, index);
             if (index >= 0) {
+                game.bettingIndex = index;
                 game.gamers[index].state = GamerState.betting;
                 game.gamers[game.smallBlindIndex].state = GamerState.smallBlind;
                 game.gamers[game.bigBlindIndex].state = GamerState.bigBlind;
@@ -36,6 +38,7 @@ export default class TexasUtil extends cc.Component {
      * @param amount 
      */
     static doBet(game: TexasGameBean, gamer: TexasGamer, amount: number): boolean {
+        amount = parseInt(amount.toString());
         if (gamer.point < amount) {
             return false;
         }
@@ -51,13 +54,52 @@ export default class TexasUtil extends cc.Component {
         return true;
     }
 
-    private static _getValidIndex(game: TexasGameBean, index: number): number {
+    /**
+     * 变更游戏控制权
+     * @param game
+     * @param lastAction 
+     */
+    static changeActiveGamer(game: TexasGameBean, lastAction: GameAction): boolean {
+        let state = GamerState.waiting;
+        if (lastAction == GameAction.TexasBet) {
+            state = GamerState.bet;
+        } else if (lastAction == GameAction.TexasCall) {
+            state = GamerState.call;
+        } else if (lastAction == GameAction.TexasRaise) {
+            state = GamerState.raise;
+        } else if (lastAction == GameAction.TexasFold) {
+            state = GamerState.fold;
+        } else if (lastAction == GameAction.TexasCheck) {
+            state = GamerState.check;
+        }
+        game.gamers[game.bettingIndex].state = state;
+        game.gamers[game.bettingIndex].logic.updateUI();
+        
+        const index = TexasUtil.getValidIndex(game, game.bettingIndex + 1);
+        if (index >= 0) {    
+            game.bettingIndex = index;
+            game.gamers[index].state = GamerState.betting;
+            game.gamers[index].logic.updateUI();
+            return true;
+        } else {
+            game.bettingIndex = -1;
+        }
+    }
+
+    private static getValidIndex(game: TexasGameBean, index: number): number {
         const o = index;
         do {
             if (index >= game.gamers.length) {
                 index = 0;
             }
-            if (game.gamers[index].point > 0) {
+            if (game.gamers[index].state != GamerState.fold && game.gamers[index].state != GamerState.allIn && game.gamers[index].point > 0) {
+                if (game.gamers[index].betPoint && game.maxBetted) {
+                    if (game.gamers[index].betPoint < game.maxBetted) {
+                        return index;
+                    } else {
+                        break;
+                    }
+                }
                 return index;
             }
             index ++;

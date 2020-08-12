@@ -103,6 +103,8 @@ export default class TexasGamerLogic extends cc.Component {
         }
         if (this._gamer.betPoint > 0) {
             this.betNode.string = "$" + this._gamer.betPoint.toString();
+        } else {
+            this.betNode.string = '';
         }
     }
 

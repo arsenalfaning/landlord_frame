@@ -15,6 +15,10 @@ import GameFrame from "../Net/GameFrame";
 import TexasGameFramePlayer from "../Component/TexasGameFramePlayer ";
 import DeckUtil from "../Util/DeckUtil";
 import TexasUtil from "../Util/TexasUtil";
+import TexasButtonLogic from "./TexasButtonLogic";
+import TexasBetBean from "../Bean/TexasBetBean";
+import TexasBetActionBean from "../Action/TexasBetActionBean";
+import TexasPublicCardsLogic from "./TexasPublicCardsLogic";
 
 export enum GameState {
     PreFlop = 1,//翻牌前
@@ -40,6 +44,11 @@ export default class TexasGameLogic extends cc.Component {
     _socket: WebSocket = null;
 
     _framePlayer: TexasGameFramePlayer = null;
+
+    @property(TexasButtonLogic)
+    texasButtonLogic: TexasButtonLogic = null;
+    @property(TexasPublicCardsLogic)
+    publicCardsLogic: TexasPublicCardsLogic = null;
 
     // LIFE-CYCLE CALLBACKS:
 
@@ -97,8 +106,17 @@ export default class TexasGameLogic extends cc.Component {
                     this._updateRoomInfoAndDeck(room);
                     this._deal();
                     this._updateUI();
-                } else if (aciton.action == GameAction.TexasDeal) {
-                    
+                } else if (aciton.action == GameAction.TexasBet || aciton.action == GameAction.TexasRaise || aciton.action == GameAction.TexasCall || 
+                    aciton.action == GameAction.TexasCheck || aciton.action == GameAction.TexasFold) {
+                    let bet = aciton as TexasBetActionBean;
+                    let result = TexasUtil.doBet(this._game, this._game.gamers.filter(e => e.gamerId == bet.data.gamerId)[0], bet.data.amount);
+                    if (result) {
+                        const flag = TexasUtil.changeActiveGamer(this._game, aciton.action);
+                        if (!flag) {
+                            this._nextRound();
+                        }
+                        this._updateUI();
+                    }
                 }
             });
         }
@@ -135,7 +153,11 @@ export default class TexasGameLogic extends cc.Component {
         const gamersInOrder = this._game.gamers.slice(this._game.smallBlindIndex).concat(this._game.gamers.slice(0, this._game.smallBlindIndex));
         gamersInOrder.forEach( g => {
             g.state = GamerState.waiting;
-            g.cards = [this._game.deck.shift(), this._game.deck.shift()];
+            g.cards = [this._game.deck.shift()];
+        });
+        gamersInOrder.forEach( g => {
+            g.cards.push(this._game.deck.shift());
+            DeckUtil.sort(g.cards);
         });
         TexasUtil.setGamerStatus(this._game);
         TexasUtil.doBet(this._game, this._game.gamers[this._game.smallBlindIndex], this._game.miniBet);
@@ -145,7 +167,57 @@ export default class TexasGameLogic extends cc.Component {
         });
     }
 
+    /**
+     * 开启下一轮
+     */
+    _nextRound() {
+        if (this._game.state == GameState.PreFlop) {//进行翻牌
+            this._game.state = GameState.FlopRound;
+            this._game.maxBetted = 0;
+            this._game.gamers[this._game.smallBlindIndex].state = GamerState.betting;
+            this._game.bettingIndex = this._game.smallBlindIndex;
+            this._game.gamers.forEach(g => {
+                g.betPoint = 0;
+                g.logic.updateUI();
+            });
+            this._game.deck.shift();
+            this.publicCardsLogic.addCards([this._game.deck.shift(), this._game.deck.shift(), this._game.deck.shift()]);
+        }
+    }
+
     _updateUI() {
+        //console.log(this._game);
         this.potLabel.string = "$" + this._game.pot.toString();
+        this.texasButtonLogic.updateUI(this._game);
+    }
+
+    sendBetAction(e: Event, amount: number) {
+        this._sendBetAction(amount, this._game.maxBetted ? GameAction.TexasRaise: GameAction.TexasBet);
+    }
+
+    sendCallAction(e: Event) {
+        const myself = this._game.gamers[this._game.myselfIndex];
+        this._sendBetAction(this._game.maxBetted - (myself.betPoint ? myself.betPoint : 0), GameAction.TexasCall);
+    }
+
+    sendCheckAction() {
+        this._sendBetAction(0, GameAction.TexasCheck);
+    }
+
+    sendFoldAction() {
+        this._sendBetAction(0, GameAction.TexasFold);
+    }
+
+    _sendBetAction(amount: number, gameAction: GameAction) {
+        const myself = this._game.gamers[this._game.myselfIndex];
+        if (myself.state == GamerState.betting) {
+            const bean = new TexasBetBean();
+            bean.amount = amount;
+            bean.gamerId = myself.gamerId;
+            const action = new TexasBetActionBean();
+            action.data = bean;
+            action.action = gameAction;
+            this._send(action);
+        }
     }
 }

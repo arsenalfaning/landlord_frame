@@ -40,7 +40,7 @@ export default class TexasPublicCardsLogic extends cc.Component {
     }
 
     start () {
-        this.addCards([0,0,0,0,0]);
+        
     }
 
     // update (dt) {}

@@ -44,6 +44,10 @@ export default class TexasGameBean {
      */
     buttonIndex: number = 0;
     /**
+     * 当前投注玩家的index
+     */
+    bettingIndex: number = -1;
+    /**
      * 玩家自己的index
      */
     myselfIndex: number = -1;
