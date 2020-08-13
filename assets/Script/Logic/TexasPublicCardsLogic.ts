@@ -22,7 +22,7 @@ export default class TexasPublicCardsLogic extends cc.Component {
     // onLoad () {}
 
     addCards(cards: number[]) {
-        this._cards = this._cards.concat(cards);
+        this.clearCards();
         if (cards.length > 0) {
             for (var i = 0; i < cards.length; i ++) {
                 var value = cards[i];

@@ -19,6 +19,7 @@ import TexasButtonLogic from "./TexasButtonLogic";
 import TexasBetBean from "../Bean/TexasBetBean";
 import TexasBetActionBean from "../Action/TexasBetActionBean";
 import TexasPublicCardsLogic from "./TexasPublicCardsLogic";
+import TexasGamerResultLogic from "./TexasGamerResultLogic";
 
 export enum GameState {
     PreFlop = 1,//翻牌前
@@ -35,6 +36,8 @@ export default class TexasGameLogic extends cc.Component {
 
     @property(cc.Node)
     gamerNode: cc.Node[] = [];
+    @property(cc.Node)
+    resultNode: cc.Node = null;
 
     @property(cc.Label)
     potLabel: cc.Label = null;
@@ -56,6 +59,7 @@ export default class TexasGameLogic extends cc.Component {
         this._connect();
         this.gamerNode.forEach(n => n.active = false);
         this._framePlayer = this.node.getComponent(TexasGameFramePlayer);
+        this.resultNode.active = false;
     }
 
     start () {
@@ -157,7 +161,6 @@ export default class TexasGameLogic extends cc.Component {
         });
         gamersInOrder.forEach( g => {
             g.cards.push(this._game.deck.shift());
-            DeckUtil.sort(g.cards);
         });
         TexasUtil.setGamerStatus(this._game);
         TexasUtil.doBet(this._game, this._game.gamers[this._game.smallBlindIndex], this._game.miniBet);
@@ -174,15 +177,48 @@ export default class TexasGameLogic extends cc.Component {
         if (this._game.state == GameState.PreFlop) {//进行翻牌
             this._game.state = GameState.FlopRound;
             this._game.maxBetted = 0;
-            this._game.gamers[this._game.smallBlindIndex].state = GamerState.betting;
-            this._game.bettingIndex = this._game.smallBlindIndex;
-            this._game.gamers.forEach(g => {
-                g.betPoint = 0;
-                g.logic.updateUI();
-            });
             this._game.deck.shift();
-            this.publicCardsLogic.addCards([this._game.deck.shift(), this._game.deck.shift(), this._game.deck.shift()]);
+            this._game.publicCards.push(this._game.deck.shift());
+            this._game.publicCards.push(this._game.deck.shift());
+            this._game.publicCards.push(this._game.deck.shift());
+            this.publicCardsLogic.addCards(this._game.publicCards);
+        } else if (this._game.state == GameState.FlopRound) {//进行转牌
+            this._game.state = GameState.TurnRound;
+            this._game.maxBetted = 0;
+            this._game.deck.shift();
+            this._game.publicCards.push(this._game.deck.shift());
+            this.publicCardsLogic.addCards(this._game.publicCards);
+        } else if (this._game.state == GameState.TurnRound) {//进行河牌
+            this._game.state = GameState.RiverRound;
+            this._game.maxBetted = 0;
+            this._game.deck.shift();
+            this._game.publicCards.push(this._game.deck.shift());
+            this.publicCardsLogic.addCards(this._game.publicCards);
+        } else if (this._game.state == GameState.RiverRound) {//进行结算
+            TexasUtil.calculateResult(this._game);
+            this.resultNode.active = true;
+            let logics = this.node.getComponentsInChildren(TexasGamerResultLogic);
+            for (let i = 0; i < this._game.gamers.length; i ++) {
+                logics[i].setData(this._game.gamers[i]);
+            }
+            return;
         }
+        this._game.gamers.forEach(g => {
+            if (g.state != GamerState.allIn && g.state != GamerState.fold) {
+                g.state = GamerState.waiting;
+            }
+        })
+        const bettingIndex = TexasUtil.findFirstValidIndex(this._game);
+        if (bettingIndex >= 0) {
+            this._game.bettingIndex = bettingIndex;
+            this._game.gamers[bettingIndex].state = GamerState.betting;
+        } else {
+            this._nextRound();
+        }
+        this._game.gamers.forEach(g => {
+            g.betPoint = 0;
+            g.logic.updateUI();
+        });
     }
 
     _updateUI() {

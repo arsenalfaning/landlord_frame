@@ -27,7 +27,7 @@ export default class TexasGameFramePlayer extends cc.Component {
      * 播放速度，每秒多少帧
      */
     @property
-    speed: number = 10;
+    speed: number = 30;
     /**
      * 最近帧发生时服务器时间
      */

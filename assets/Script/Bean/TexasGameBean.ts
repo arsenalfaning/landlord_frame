@@ -59,6 +59,10 @@ export default class TexasGameBean {
      * 大盲位
      */
     bigBlindIndex: number = 2;
+    /**
+     * 投注map，key为玩家id，value为当前局累计投注量
+     */
+    betMap: Map<string, number> = new Map<string, number>();
     
     constructor() {
         

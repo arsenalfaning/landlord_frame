@@ -6,7 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import TeamBean from "../Team/TeamBean";
-import VMUtil from "../Util/VMUtil";
+import VMUtil, { BaseUrl } from "../Util/VMUtil";
 import ActionBean from "../Bean/ActionBean";
 import TeamJoinBean from "../Bean/TeamJoinBean";
 import ActionFactory from "../Action/ActionFactory";
@@ -15,7 +15,7 @@ import StartGameBean from "../Bean/StartGameBean";
 
 const {ccclass, property} = cc._decorator;
 
-const host = "ws://192.168.0.100:8080/team?token=";
+const host = BaseUrl + "team?token=";
 const texasGamerId = "2";
 
 @ccclass

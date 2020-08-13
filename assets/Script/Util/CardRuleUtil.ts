@@ -179,6 +179,20 @@ export default class CardRuleUtil {
     }
 
     /**
+     * 判断是否是texas顺子
+     * @param cards 
+     */
+    static isTexasStraight(cards: number[]): boolean {
+        for (let i = 0; i < cards.length - 1; i += 1) {
+            const delta = DeckUtil.compareValue(cards[i], cards[i + 1]);
+            if ( delta != 1 && delta != -12) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 查找n张相同面值的牌
      * @param cards 
      * @param n 

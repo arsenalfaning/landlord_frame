@@ -6,6 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 import TexasGamerLogic, { GamerState } from "../Logic/TexasGamerLogic";
+import { TexasGamerResult } from "../Util/TexasUtil";
 
 
 export default class TexasGamer {
@@ -34,5 +35,8 @@ export default class TexasGamer {
      * ui控制
      */
     logic: TexasGamerLogic = null;
-    
+    /**
+     * 当前局游戏结果
+     */
+    result: TexasGamerResult = null;
 }

@@ -23,6 +23,8 @@ var landlord:GamerBean;
 var teamInvitor:string;
 var startGameBean:StartGameBean;
 
+export const BaseUrl = "ws://192.168.0.99:8080/";
+
 export default class VMUtil{
 
     static init() {

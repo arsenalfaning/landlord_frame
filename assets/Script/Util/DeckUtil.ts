@@ -6,6 +6,7 @@
 //  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
 
 const Value_Array = [0, 14, 20, 3, 4, 5, 6, 7, 8, 9, 10 ,11, 12, 13, 30, 40];
+const Texas_Value_Array = [0, 14, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11, 12, 13, 30, 40];
 const Style_Array = [0, 2, 4, 3, 5, 1];
 
 /**
@@ -67,6 +68,21 @@ export default class DeckUtil {
     }
 
     /**
+     * texas排序
+     * @param deck 
+     */
+    static texasSort(deck: number[]) {
+        deck.sort((card1, card2) => {
+            let delta = Texas_Value_Array[DeckUtil.value(card1)] - Texas_Value_Array[DeckUtil.value(card2)];
+            if (delta == 0) {
+                return - Style_Array[DeckUtil.style(card1)] - Style_Array[DeckUtil.style(card2)];
+            } else {
+                return - delta;
+            }
+        })
+    }
+
+    /**
      * 比较两张牌的排序顺序
      * @param card1 
      * @param card2 
@@ -87,6 +103,15 @@ export default class DeckUtil {
      */
     static compareValue(card1: number, card2: number): number {
         return Value_Array[DeckUtil.value(card1)] - Value_Array[DeckUtil.value(card2)];
+    }
+
+    /**
+     * Texas比较两张牌面值大小
+     * @param card1 
+     * @param card2 
+     */
+    static texasCompareValue(card1: number, card2: number): number {
+        return Texas_Value_Array[DeckUtil.value(card1)] - Value_Array[DeckUtil.value(card2)];
     }
 
     /**
