@@ -197,7 +197,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "4b6b6f7f-71da-445c-a494-01ede1735c60"
     },
     "fileId": "c1NMi0HjxCH65UtESx9+rQ",
     "sync": false
@@ -306,7 +306,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "4b6b6f7f-71da-445c-a494-01ede1735c60"
     },
     "fileId": "1fjBR7QIZC8KNElwcdzWT6",
     "sync": false
@@ -413,7 +413,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "4b6b6f7f-71da-445c-a494-01ede1735c60"
     },
     "fileId": "54QjQN/4xGT5T+mZBeey5/",
     "sync": false
@@ -445,8 +445,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 12.6
+      "width": 36,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -500,8 +500,8 @@
     "_useOriginalSize": false,
     "_string": "刘玄德",
     "_N$string": "刘玄德",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -522,7 +522,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "4b6b6f7f-71da-445c-a494-01ede1735c60"
     },
     "fileId": "eeLtgfEQtFaoL1Q3CDoluG",
     "sync": false
@@ -554,8 +554,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.15,
-      "height": 12.6
+      "width": 33.37,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -567,7 +567,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -74,
+        -76,
         0,
         0,
         0,
@@ -607,10 +607,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "123,456",
-    "_N$string": "123,456",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_string": "10000",
+    "_N$string": "10000",
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -631,7 +631,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "4b6b6f7f-71da-445c-a494-01ede1735c60"
     },
     "fileId": "b1QEScjIVGXa1Z/frnfMJk",
     "sync": false
@@ -754,7 +754,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "4b6b6f7f-71da-445c-a494-01ede1735c60"
     },
     "fileId": "89mRcec5lI95X3QcISYvXv",
     "sync": false
@@ -861,7 +861,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "4b6b6f7f-71da-445c-a494-01ede1735c60"
     },
     "fileId": "49QM6WZ19IO4co65+5EpbJ",
     "sync": false
@@ -898,7 +898,7 @@
       "__id__": 1
     },
     "asset": {
-      "__id__": 0
+      "__uuid__": "4b6b6f7f-71da-445c-a494-01ede1735c60"
     },
     "fileId": "97bzqqVKhI4KTggPoW7QZB",
     "sync": false

@@ -3982,12 +3982,12 @@
     "_prefab": {
       "__id__": 83
     },
-    "_opacity": 180,
+    "_opacity": 141,
     "_color": {
       "__type__": "cc.Color",
-      "r": 55,
-      "g": 62,
-      "b": 0,
+      "r": 24,
+      "g": 116,
+      "b": 41,
       "a": 255
     },
     "_contentSize": {
@@ -4031,7 +4031,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 81
@@ -4138,7 +4138,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Status Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 84
@@ -4247,7 +4247,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Avatar Sprite<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 87
@@ -4315,8 +4315,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 12.6
+      "width": 36,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4354,7 +4354,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Name Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 90
@@ -4370,8 +4370,8 @@
     "_useOriginalSize": false,
     "_string": "刘玄德",
     "_N$string": "刘玄德",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -4424,8 +4424,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.15,
-      "height": 12.6
+      "width": 33.37,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4437,7 +4437,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -74,
+        -76,
         0,
         0,
         0,
@@ -4463,7 +4463,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Point Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 93
@@ -4477,10 +4477,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "123,456",
-    "_N$string": "123,456",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_string": "10000",
+    "_N$string": "10000",
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -4549,14 +4549,14 @@
       "ctor": "Float64Array",
       "array": [
         80,
-        0,
+        -20,
         0,
         0,
         0,
         0,
         1,
-        0.4,
-        0.4,
+        0.6,
+        0.6,
         1
       ]
     },
@@ -4695,7 +4695,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Time Node<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 100
@@ -5023,7 +5023,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 108
@@ -5130,7 +5130,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Status Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 111
@@ -5239,7 +5239,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Avatar Sprite<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 114
@@ -5307,8 +5307,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 12.6
+      "width": 36,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5346,7 +5346,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Name Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 117
@@ -5362,8 +5362,8 @@
     "_useOriginalSize": false,
     "_string": "刘玄德",
     "_N$string": "刘玄德",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -5416,8 +5416,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.15,
-      "height": 12.6
+      "width": 33.37,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5429,7 +5429,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -74,
+        -76,
         0,
         0,
         0,
@@ -5455,7 +5455,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Point Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 120
@@ -5469,10 +5469,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "123,456",
-    "_N$string": "123,456",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_string": "10000",
+    "_N$string": "10000",
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -5687,7 +5687,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Time Node<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 127
@@ -6015,7 +6015,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 135
@@ -6122,7 +6122,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Status Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 138
@@ -6231,7 +6231,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Avatar Sprite<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 141
@@ -6299,8 +6299,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 12.6
+      "width": 36,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6338,7 +6338,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Name Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 144
@@ -6354,8 +6354,8 @@
     "_useOriginalSize": false,
     "_string": "刘玄德",
     "_N$string": "刘玄德",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6408,8 +6408,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.15,
-      "height": 12.6
+      "width": 33.37,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -6421,7 +6421,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -74,
+        -76,
         0,
         0,
         0,
@@ -6447,7 +6447,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Point Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 147
@@ -6461,10 +6461,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "123,456",
-    "_N$string": "123,456",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_string": "10000",
+    "_N$string": "10000",
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -6679,7 +6679,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Time Node<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 154
@@ -7007,7 +7007,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 162
@@ -7114,7 +7114,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Status Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 165
@@ -7223,7 +7223,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Avatar Sprite<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 168
@@ -7291,8 +7291,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 12.6
+      "width": 36,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7330,7 +7330,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Name Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 171
@@ -7346,8 +7346,8 @@
     "_useOriginalSize": false,
     "_string": "刘玄德",
     "_N$string": "刘玄德",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7400,8 +7400,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.15,
-      "height": 12.6
+      "width": 33.37,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -7413,7 +7413,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -74,
+        -76,
         0,
         0,
         0,
@@ -7439,7 +7439,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Point Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 174
@@ -7453,10 +7453,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "123,456",
-    "_N$string": "123,456",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_string": "10000",
+    "_N$string": "10000",
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -7671,7 +7671,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Time Node<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 181
@@ -7999,7 +7999,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 189
@@ -8106,7 +8106,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Status Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 192
@@ -8215,7 +8215,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Avatar Sprite<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 195
@@ -8283,8 +8283,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 12.6
+      "width": 36,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8322,7 +8322,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Name Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 198
@@ -8338,8 +8338,8 @@
     "_useOriginalSize": false,
     "_string": "刘玄德",
     "_N$string": "刘玄德",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -8392,8 +8392,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.15,
-      "height": 12.6
+      "width": 33.37,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -8405,7 +8405,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -74,
+        -76,
         0,
         0,
         0,
@@ -8431,7 +8431,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Point Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 201
@@ -8445,10 +8445,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "123,456",
-    "_N$string": "123,456",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_string": "10000",
+    "_N$string": "10000",
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -8663,7 +8663,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Time Node<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 208
@@ -8991,7 +8991,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 216
@@ -9098,7 +9098,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Status Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 219
@@ -9207,7 +9207,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Avatar Sprite<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 222
@@ -9275,8 +9275,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 12.6
+      "width": 36,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -9314,7 +9314,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Name Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 225
@@ -9330,8 +9330,8 @@
     "_useOriginalSize": false,
     "_string": "刘玄德",
     "_N$string": "刘玄德",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -9384,8 +9384,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.15,
-      "height": 12.6
+      "width": 33.37,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -9397,7 +9397,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -74,
+        -76,
         0,
         0,
         0,
@@ -9423,7 +9423,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Point Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 228
@@ -9437,10 +9437,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "123,456",
-    "_N$string": "123,456",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_string": "10000",
+    "_N$string": "10000",
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -9655,7 +9655,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Time Node<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 235
@@ -9983,7 +9983,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 243
@@ -10090,7 +10090,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Status Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 246
@@ -10199,7 +10199,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Avatar Sprite<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 249
@@ -10267,8 +10267,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 12.6
+      "width": 36,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -10306,7 +10306,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Name Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 252
@@ -10322,8 +10322,8 @@
     "_useOriginalSize": false,
     "_string": "刘玄德",
     "_N$string": "刘玄德",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -10376,8 +10376,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.15,
-      "height": 12.6
+      "width": 33.37,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -10389,7 +10389,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -74,
+        -76,
         0,
         0,
         0,
@@ -10415,7 +10415,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Point Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 255
@@ -10429,10 +10429,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "123,456",
-    "_N$string": "123,456",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_string": "10000",
+    "_N$string": "10000",
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -10647,7 +10647,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Time Node<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 262
@@ -10975,7 +10975,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 270
@@ -11082,7 +11082,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Status Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 273
@@ -11191,7 +11191,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Avatar Sprite<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 276
@@ -11259,8 +11259,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 12.6
+      "width": 36,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -11298,7 +11298,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Name Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 279
@@ -11314,8 +11314,8 @@
     "_useOriginalSize": false,
     "_string": "刘玄德",
     "_N$string": "刘玄德",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -11368,8 +11368,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.15,
-      "height": 12.6
+      "width": 33.37,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -11381,7 +11381,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -74,
+        -76,
         0,
         0,
         0,
@@ -11407,7 +11407,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Point Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 282
@@ -11421,10 +11421,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "123,456",
-    "_N$string": "123,456",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_string": "10000",
+    "_N$string": "10000",
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -11639,7 +11639,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Time Node<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 289
@@ -11967,7 +11967,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Background<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 297
@@ -12074,7 +12074,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Status Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 300
@@ -12183,7 +12183,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Avatar Sprite<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 303
@@ -12251,8 +12251,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30,
-      "height": 12.6
+      "width": 36,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -12290,7 +12290,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Name Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 306
@@ -12306,8 +12306,8 @@
     "_useOriginalSize": false,
     "_string": "刘玄德",
     "_N$string": "刘玄德",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -12360,8 +12360,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 36.15,
-      "height": 12.6
+      "width": 33.37,
+      "height": 15.12
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -12373,7 +12373,7 @@
       "ctor": "Float64Array",
       "array": [
         0,
-        -74,
+        -76,
         0,
         0,
         0,
@@ -12399,7 +12399,7 @@
   },
   {
     "__type__": "cc.Label",
-    "_name": "",
+    "_name": "Point Label<Label>",
     "_objFlags": 0,
     "node": {
       "__id__": 309
@@ -12413,10 +12413,10 @@
     "_srcBlendFactor": 770,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "123,456",
-    "_N$string": "123,456",
-    "_fontSize": 10,
-    "_lineHeight": 10,
+    "_string": "10000",
+    "_N$string": "10000",
+    "_fontSize": 12,
+    "_lineHeight": 12,
     "_enableWrapText": true,
     "_N$file": null,
     "_isSystemFontUsed": true,
@@ -12631,7 +12631,7 @@
   },
   {
     "__type__": "cc.Sprite",
-    "_name": "",
+    "_name": "Time Node<Sprite>",
     "_objFlags": 0,
     "node": {
       "__id__": 316
