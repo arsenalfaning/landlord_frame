@@ -7,6 +7,8 @@
 
 import TexasGamer from "../Bean/TexasGamer";
 import TexasGamerCardsLogic from "./TexasGamerCardsLogic";
+import TexasGameBean from "../Bean/TexasGameBean";
+import { GameState } from "./TexasGameLogic";
 
 export enum GamerState {
     betting = 10,//下注中
@@ -63,6 +65,8 @@ export default class TexasGamerLogic extends cc.Component {
 
     _delta: number = 0;
 
+    _game : TexasGameBean = null;
+
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {}
@@ -74,19 +78,17 @@ export default class TexasGamerLogic extends cc.Component {
     /**
      * 设置手牌
      */
-    _setCards(cards: number[]) {
+    _setCards(cards: number[], hide: boolean = true) {
         if (cards) {
             let logic = this.node.getComponentInChildren(TexasGamerCardsLogic);
-            logic.setData(cards);
+            logic.setData(hide ? [0, 0]:cards);
         }
     }
 
-    gamerInit(gamer: TexasGamer) {
-        if (!this._gamer) {
-            this._gamer = gamer;
-            gamer.logic = this;
-            //cc.director.on(GamerEventKey + this._gamer.gamerId, this.updateUI, this);
-        }
+    gamerInit(gamer: TexasGamer, game: TexasGameBean) {
+        this._gamer = gamer;
+        this._game = game;
+        gamer.logic = this;
         this.updateUI();
     }
 
@@ -94,7 +96,13 @@ export default class TexasGamerLogic extends cc.Component {
         this.nameNode.string = this._gamer.gamerId;
         this.pointNode.string = this._gamer.point.toString();
         this.statusNode.string = StateMap.get(this._gamer.state);
-        this._setCards(this._gamer.cards);
+        if (this._gamer && this._game.gamers[this._game.myselfIndex]) {
+            if (this._game.state == GameState.GameOver) {
+                this._setCards(this._gamer.cards, false);
+            } else {
+                this._setCards(this._gamer.cards, this._game.gamers[this._game.myselfIndex].gamerId != this._gamer.gamerId);
+            }
+        }
         if(this._gamer.state == GamerState.betting) {
             this.timeNode.active = true;
             this.timeNode.height = 150;

@@ -8,7 +8,7 @@
   },
   "packageName": "org.cocos2d.helloworld",
   "startScene": "32ce53eb-c6dd-4810-87a9-0c560228ccf6",
-  "title": "hello_world",
+  "title": "德州扑克",
   "webOrientation": "landscape",
   "includeSDKBox": false,
   "inlineSpriteFrames": true,

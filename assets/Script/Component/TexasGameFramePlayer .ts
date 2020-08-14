@@ -52,9 +52,18 @@ export default class TexasGameFramePlayer extends cc.Component {
 
     // LIFE-CYCLE CALLBACKS:
 
+    init() {
+        this.time = null;
+        this.serverTime = null;
+        this.clientTime = null;
+        this.version = 0;
+        this.delta = 0;
+        this.frameQueue = [];
+    }
+
     onLoad () {
         this.gameLogic = this.node.getComponent(TexasGameLogic);
-        this.frameQueue = [];
+        this.init();
     }
 
     addFrame(frame: GameFrame<Object>) {

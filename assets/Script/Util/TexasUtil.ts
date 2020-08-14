@@ -67,6 +67,7 @@ export default class TexasUtil extends cc.Component {
         if (game.state == GameState.PreFlop) {
             let index = game.bigBlindIndex + 1;
             index = TexasUtil.getValidIndex(game, index);
+            console.log(index);
             if (index >= 0) {
                 game.bettingIndex = index;
                 game.gamers[index].state = GamerState.betting;
@@ -120,6 +121,8 @@ export default class TexasUtil extends cc.Component {
             state = GamerState.fold;
         } else if (lastAction == GameAction.TexasCheck) {
             state = GamerState.check;
+        } else if (lastAction == GameAction.TexasAllIn) {
+            state = GamerState.allIn;
         }
         game.gamers[game.bettingIndex].state = state;
         game.gamers[game.bettingIndex].logic.updateUI();
@@ -136,20 +139,33 @@ export default class TexasUtil extends cc.Component {
     }
 
     private static getValidIndex(game: TexasGameBean, index: number): number {
+        if (index >= game.gamers.length) {
+            index = 0;
+        }
         const o = index;
         do {
             if (index >= game.gamers.length) {
                 index = 0;
             }
-            if (game.gamers[index].state != GamerState.fold && game.gamers[index].state != GamerState.check && game.gamers[index].state != GamerState.allIn && game.gamers[index].point > 0) {
-                if (game.gamers[index].betPoint && game.maxBetted) {
-                    if (game.gamers[index].betPoint < game.maxBetted) {
-                        return index;
-                    } else {
+            const gamer = game.gamers[index];
+            if (gamer.state != GamerState.fold) {
+                let min = (game.maxBetted ? game.maxBetted : 0) - (gamer.betPoint ? gamer.betPoint : 0);
+                if (gamer.state != GamerState.allIn && gamer.point >= min) {
+                    if (gamer.betPoint && game.maxBetted) {
+                        if (gamer.betPoint < game.maxBetted) {
+                            return index;
+                        } else {
+                            break;
+                        }
+                    } 
+                    if (game.maxBetted == 0 && gamer.state == GamerState.check) {
                         break;
                     }
+                    return index;
+                } else {//没有筹码可用了
+                    BetUtil.addSidePot(game.lastSidePot, game.pot, [gamer.gamerId], game.betMap);
+                    game.lastSidePot = game.pot;
                 }
-                return index;
             }
             index ++;
         } while(index != o);
@@ -169,7 +185,7 @@ export default class TexasUtil extends cc.Component {
                 index = 0;
             }
             const gamer = game.gamers[index];
-            if (gamer.state != GamerState.fold && gamer.state != GamerState.allIn && gamer.state != GamerState.check && gamer.point > 0) {
+            if (gamer.state != GamerState.fold && gamer.state != GamerState.allIn && gamer.point > 0) {
                 return index;
             }
             index ++;
@@ -446,9 +462,16 @@ export default class TexasUtil extends cc.Component {
         arr.sort((a, b) => {
             return -this.compareTexasCards(a.result.texasCards, b.result.texasCards); 
         });
+        let winnerCards: TexasCards;
+        for (let i = 0; i < arr.length; i ++) {
+            if (arr[i].state != GamerState.fold) {
+                winnerCards = arr[i].result.texasCards;
+                break;
+            }
+        }
         const winners: Set<string> = new Set<string>();
         arr.forEach(g => {
-            g.result.isWinner = this.compareTexasCards(g.result.texasCards, arr[0].result.texasCards) == 0;
+            g.result.isWinner = g.state != GamerState.fold && this.compareTexasCards(g.result.texasCards, winnerCards) == 0;
             if (g.result.isWinner) {
                 winners.add(g.gamerId);
             }
@@ -459,8 +482,8 @@ export default class TexasUtil extends cc.Component {
             g.result.deltaPoint = - ( game.betMap.get(g.gamerId) ? game.betMap.get(g.gamerId) : 0);
             if (map.has(g.gamerId)) {
                 g.result.deltaPoint += map.get(g.gamerId);
+                g.point += map.get(g.gamerId);
             }
         });
-        console.log(arr);
     }
 }

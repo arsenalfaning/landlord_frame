@@ -36,13 +36,17 @@ export default class TexasGameBean {
      */
     pot: number = 0;
     /**
+     * 上一次边池投注量
+     */
+    lastSidePot: number = 0;
+    /**
      * 单个玩家当前轮已投最大值
      */
     maxBetted: number = 0;
     /**
      * 庄家index
      */
-    buttonIndex: number = 0;
+    buttonIndex: number = 1;
     /**
      * 当前投注玩家的index
      */
@@ -54,15 +58,19 @@ export default class TexasGameBean {
     /**
      * 小盲位
      */
-    smallBlindIndex: number = 1;
+    smallBlindIndex: number = 2;
     /**
      * 大盲位
      */
-    bigBlindIndex: number = 2;
+    bigBlindIndex: number = 3;
     /**
      * 投注map，key为玩家id，value为当前局累计投注量
      */
     betMap: Map<string, number> = new Map<string, number>();
+    /**
+     * 种子
+     */
+    seed: number;
     
     constructor() {
         

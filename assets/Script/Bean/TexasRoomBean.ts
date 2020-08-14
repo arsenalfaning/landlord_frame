@@ -22,4 +22,12 @@ export default class TexasRoomBean {
      * 洗牌随机数组
      */
     cards: number[];
+    /**
+     * 队长id
+     */
+    captain: string;
+    /**
+     * 庄位index
+     */
+    buttonIndex: number;
 }

@@ -56,6 +56,8 @@ export enum GameAction {
     TexasFold = "fold",//弃牌
     TexasCheck = "check",//过牌
     TexasAllIn = "allIn",//全下
+    TexasSettle = "settle",//结算
+    TexasContinue = "next",//继续下一局
 }
 
 const {ccclass, property} = cc._decorator;

@@ -26,6 +26,9 @@ export default class TexasButtonLogic extends cc.Component {
     bet100Button: cc.Button = null;
 
     @property(cc.Button)
+    betAllButton: cc.Button = null;
+
+    @property(cc.Button)
     callButton: cc.Button = null;
 
     @property(cc.Button)
@@ -48,6 +51,7 @@ export default class TexasButtonLogic extends cc.Component {
         this.callButton.node.active = false;
         this.foldButton.node.active = false;
         this.checkButton.node.active = false;
+        this.betAllButton.node.active = false;
     }
 
     start () {
@@ -64,10 +68,8 @@ export default class TexasButtonLogic extends cc.Component {
             if (game.maxBetted > 0) {
                 this.callButton.node.active = true;
                 callValue = game.maxBetted - (myself.betPoint ? myself.betPoint : 0);
-                console.log(callValue);
                 let string = this.callButton.getComponentInChildren(cc.Label).string;
                 this.callButton.getComponentInChildren(cc.Label).string = string.split("$")[0] + "$" + callValue;
-                console.log(this.callButton.getComponentInChildren(cc.Label).string);
             } else {
                 this.checkButton.node.active = true;
             }
@@ -75,6 +77,7 @@ export default class TexasButtonLogic extends cc.Component {
             this.bet20Button.node.active = callValue < 20 && myself.point >= 20;
             this.bet50Button.node.active = callValue < 50 && myself.point >= 50;
             this.bet100Button.node.active = callValue < 100 && myself.point >= 100;
+            this.betAllButton.node.active = true;
             this.foldButton.node.active = true;
         }
     }

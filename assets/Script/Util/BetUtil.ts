@@ -11,13 +11,21 @@ export default class BetUtil {
 
     private static sidePotList: SidePotBean[] = [];
     
+
+    /**
+     * 初始化
+     */
+    public static init() {
+        BetUtil.sidePotList = [];
+    }
+
     /**
      * 添加新的边池
      * @param sidePot 
      */
     public static addSidePot(start: number, end: number, gamers: string[], betMap: Map<string, number>) {
         let sidePot: SidePotBean = new SidePotBean();
-        sidePot.betMap = betMap;
+        sidePot.betMap = new Map<string, number>(betMap);
         sidePot.end = end;
         sidePot.start = start;
         sidePot.gamers = gamers;

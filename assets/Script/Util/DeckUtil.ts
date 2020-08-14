@@ -111,7 +111,7 @@ export default class DeckUtil {
      * @param card2 
      */
     static texasCompareValue(card1: number, card2: number): number {
-        return Texas_Value_Array[DeckUtil.value(card1)] - Value_Array[DeckUtil.value(card2)];
+        return Texas_Value_Array[DeckUtil.value(card1)] - Texas_Value_Array[DeckUtil.value(card2)];
     }
 
     /**
